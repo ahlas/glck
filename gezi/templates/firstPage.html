@@ -15,24 +15,34 @@
 
       padding: 70px;
     }
+    body{
+      background-color: #cccccc;
+      background-image:url("static/images/background.jpg")
+    }
+
 </style>
 
-</head>
-
-<head>
-  <link rel="sylesheet" href="static/css/background.css">
+  <link rel="sylesheet" type ="text/css" href="static/css/sampleCss.css">
 </head>
 
 
-<h2>                Gezi Projesi</h2>
+<h2>Gezi Projesi Test1</h2>
 
 
 <div class="center ">
   <p><body>
+  <!--
+  <form action="detail" method="GET">
+      <button type="submit">Ara!</button>
+  </form>
+  -->
 
-  <input type="text" name="lastname" value="Hadi gezilecek Yerleri Bulalım...">
-  <button type="button">Ara!</button>
-  
+  <form action="{% url 'detail' %}" method="GET">
+      <input size=50 style="font-size:15pt" type="text" id="searchArea"
+          name="lastname" value="Hadi gezilecek Yerleri Bulalım...">
+      <button type="submit">Ara!</button>
+  </form>
+
 
 </body></p>
 </div>
