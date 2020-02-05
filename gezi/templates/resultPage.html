@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    {{sehir}}
+    {% if altSehirler %}
+        <ul>
+            {% for altSehir in altSehirler %}
+            <li><a href="/#/">{{altSehir.yerAdi}}</a> </li>
+            {% endfor %}
+        </ul>
+     {% else %}
+        <h3>You dont have any permission</h3>
+    {% endif %}
 </head>
 <body>
 

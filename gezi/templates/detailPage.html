@@ -7,10 +7,10 @@
     {% if sehirler %}
         <ul>
             {% for sehir in sehirler %}
-                <li><a href="">{{sehir.il}}</a> </li>
+                <li><a href="/{{sehir.id}}/">{{sehir.il}}</a> </li>
             {% endfor %}
         </ul>
-    {% else %}
+     {% else %}
         <h3>You dont have any permission</h3>
     {% endif %}
 
