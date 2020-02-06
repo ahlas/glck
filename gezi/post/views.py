@@ -1,8 +1,10 @@
 from django.shortcuts import render, HttpResponse
 from .models import Sehir,AltSehir
 from django.http import Http404
+from .TravelAlgorithm.src.travelAlgorithm import main
 
 def homePageView(request):
+    main()
     return render(request, 'firstPage.html')
 
 def detail(request):
@@ -15,9 +17,9 @@ def detail(request):
     #Html koduna ilgili değerleri context ile gönderiyoruz
     return render(request, 'detailPage.html', context)
 
-def result(request, sehir_id):
+def result(request, sehirAdi, sehirID):
     try:
-        altSehirler = AltSehir.objects.filter(sehir_id=sehir_id)
+        altSehirler = AltSehir.objects.filter(sehir_id=sehirID)
         context = {
             'altSehirler': altSehirler,
         }

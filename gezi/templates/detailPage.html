@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <title>Detay Ekranı</title>
 
+    <img src="file://C://Users//Yusuf.Ustuntepe//Pictures//Wallpapers//penguen.png">
+
     {% if sehirler %}
         <ul>
             {% for sehir in sehirler %}
-                <li><a href="/{{sehir.id}}/">{{sehir.il}}</a> </li>
+                <li><a href="/{{sehir.il}}/{{sehir.id}}/">{{sehir.il}}</a> </li>
             {% endfor %}
         </ul>
      {% else %}
