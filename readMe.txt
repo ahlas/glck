@@ -1,4 +1,5 @@
 
+*-*-* git push -u githubRepo master
 
 *-*-* Serverı ayağa kaldırmak için gerekli komut => python manage.py runserver
 
