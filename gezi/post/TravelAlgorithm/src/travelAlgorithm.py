@@ -7,8 +7,14 @@ from .neuron import generate_network, get_neighborhood, get_route
 from .distance import select_closest, euclidean_distance, route_distance
 from .plot import plot_network, plot_route
 
+import geocoder
+
 #Rota Bulma fonksiyonu
-def main():
+def findRoute():
+
+    myloc = geocoder.ip('me')
+    print("My Location =",myloc.latlng)
+
     dosya = open("deneme.txt", "w")
     dosya.write("Merhaba Millet :)")
     dosya.close()
