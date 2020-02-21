@@ -5,3 +5,5 @@
 
 *-*-* Database'deki değerlere console dan ulaşmak için import edilmesi gerekilenler
         ==> from post.models import Sehir,AltSehir
+
+*Clone test
