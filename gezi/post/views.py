@@ -9,6 +9,9 @@ def homePageView(request):
     return render(request, 'firstPage.html')
 
 def detail(request):
+    checkList = request.GET.getlist('checks[]')
+    print("ChecklistType=",checkList)
+
     #sehirler = Sehir.objects.all()
     query = request.GET['lastname']
     sehirler = Sehir.objects.filter(il__startswith=query)
