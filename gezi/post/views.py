@@ -27,14 +27,21 @@ def result(request, sehirAdi, sehirID):
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
 
+        for col in range(len(altSehirlerFrame)):
+            print("Sehir=",altSehirlerFrame.iloc[col]['yerAdi'])
         #-------------------- Database'deki verileri uygun formata çeviriyoruz ----------
         writeTSPFile(altSehirlerFrame)
-        # ------------------------------------------------------------------------
+        # -------------------------- Sıralanmıs Sehir Listesini alıyoruz----------------------------------------------
         sortedCities = findRoute()
+
+        #---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
+        sortedCitiesNameList = []
+        for a in range(len(sortedCities)):
+            sortedCitiesNameList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-1]['yerAdi'])
 
         context = {
             'altSehirler': altSehirler,
-            'sortedCities': sortedCities,
+            'sortedCitiesNameList': sortedCitiesNameList,
         }
 
     except Sehir.DoesNotExist:
