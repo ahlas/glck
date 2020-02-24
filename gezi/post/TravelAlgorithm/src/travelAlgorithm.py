@@ -20,16 +20,25 @@ def findRoute():
     dosya.write("Merhaba Millet :)")
     dosya.close()
 
-    problem = read_tsp("test.tsp")
+    problem = read_tsp("sehirBilgileri.tsp")
 
     locationFlag = False
-    route = som(problem, 30,locationFlag)
+
+    cityAndRoute = som(problem, 30,locationFlag)
+    route = cityAndRoute[0]
+    cityS = cityAndRoute[1]
+
+    #Sıralanmis City List'i
+    for a in range(len(cityS)):
+        print("Cities=", a, " ", cityS.iloc[a]['city'])
 
     problem = problem.reindex(route)
 
     distance = route_distance(problem)
 
     print('Route found of length {}'.format(distance))
+
+    return cityS
 
 
 def som(problem, iterations, locationFlag, learning_rate=0.8):
@@ -83,17 +92,18 @@ def som(problem, iterations, locationFlag, learning_rate=0.8):
         route = get_route(cities, network)
 
         cities.sort_values(by=['winner'],inplace =True)
-        print(route)
 
         print("Shortest=", shortestCityIndex)
-
         ourLocationIndex = route.tolist()
+
+        print("Len = ", len(ourLocationIndex))
+
         if (ourLocationIndex[0] == 0 and ourLocationIndex[1] == shortestCityIndex):
             break
 
      #   plot_route(cities, route, 'diagrams/route.png')
 
-    return route
+    return [route,cities]
 
 def findShortestCity(cities):
     index = 999

@@ -10,7 +10,6 @@ def homePageView(request):
 
 def detail(request):
     checkList = request.GET.getlist('checks[]')
-    print("ChecklistType=",checkList)
 
     #sehirler = Sehir.objects.all()
     query = request.GET['lastname']
@@ -28,20 +27,38 @@ def result(request, sehirAdi, sehirID):
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
 
-        for col in altSehirlerFrame.columns:
-            print(col)
-
-        print("altSehir Tipi=",altSehirlerFrame.iloc[0]['konumX'])
-        print("altSehir Tipi=", altSehirlerFrame.iloc[0]['yerAdi'])
-
+        #-------------------- Database'deki verileri uygun formata çeviriyoruz ----------
+        writeTSPFile(altSehirlerFrame)
         # ------------------------------------------------------------------------
+        sortedCities = findRoute()
 
         context = {
             'altSehirler': altSehirler,
+            'sortedCities': sortedCities,
         }
-
-        findRoute()
 
     except Sehir.DoesNotExist:
         raise Http404("Yetkiniz bulunmamaktadır...")
     return render(request, 'resultPage.html', context)
+
+
+def writeTSPFile(altSehirlerFrame):
+    dosya = open("sehirBilgileri.tsp", "w")
+
+    dosya.write("""NAME : ar9152
+COMMENT : 9152 locations in Argentina
+COMMENT : Derived from National Imagery and Mapping Agency data
+TYPE : TSP\n""")
+    dimension = "DIMENSION : "+str(len(altSehirlerFrame))
+    dosya.write(dimension)
+    dosya.write("""
+EDGE_WEIGHT_TYPE : EUC_2D
+NODE_COORD_SECTION
+""")
+
+    for col in range(len(altSehirlerFrame)):
+        value = str(col+1) + " " + str(altSehirlerFrame.iloc[col]['konumX'])+" "+str(altSehirlerFrame.iloc[col]['konumY'])+"\n"
+        dosya.write(value)
+
+    dosya.write("EOF")
+    dosya.close()

@@ -6,7 +6,7 @@
 </head>
 <style>
  body {
-  /*      background:url(modern-technological-elements-with-transparent-background/7108.jpg) no-repeat center center fixed;
+        background:url(static/images/background.jpg) no-repeat center center fixed;
 	color:#000;
 	background-size: cover;
 	 -webkit-background-size: cover;
@@ -279,7 +279,7 @@ h1{
 
 
 .maps_container{
-  padding-top: 10%;
+  padding-top: 3%;
   width: 100%;
   margin: 0 auto;
 }
@@ -391,98 +391,18 @@ h1{
    <div class="row">
       <div class="col-9 col-s-12">
 
-        <div class="col-s-12 col-2" >
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
+          {% if altSehirler %}
+                {% for altSehir in altSehirler %}
+                        <div class="col-s-12 col-2" >
+                            <label class="container">{{altSehir.yerAdi}}
+                            <input type="checkbox" checked="unchecked">
+                            <span class="checkmark"></span>
+                            </label>
+                        </div>
+                {% endfor %}
+         {% else %}
+            <h3>You dont have any permission</h3>
+        {% endif %}
 
     </div>
 
