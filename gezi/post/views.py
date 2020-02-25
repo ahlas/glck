@@ -36,12 +36,21 @@ def result(request, sehirAdi, sehirID):
 
         #---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
         sortedCitiesNameList = []
+        sortedCitiesLatList = []
+        sortedCitiesLonList= []
+        sortedCitiesSize = []
         for a in range(len(sortedCities)):
             sortedCitiesNameList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-1]['yerAdi'])
+            sortedCitiesLatList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-1]['konumX'])
+            sortedCitiesLonList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city']) - 1]['konumY'])
+            sortedCitiesSize.append(int(a))
 
         context = {
             'altSehirler': altSehirler,
             'sortedCitiesNameList': sortedCitiesNameList,
+            'sortedCitiesLatList': sortedCitiesLatList,
+            'sortedCitiesLonList': sortedCitiesLonList,
+            'sortedCitiesSize': sortedCitiesSize,
         }
 
     except Sehir.DoesNotExist:
