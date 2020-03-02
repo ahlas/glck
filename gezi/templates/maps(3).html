@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -6,21 +6,23 @@
 </head>
 <style>
  body {
-  /*      background:url(modern-technological-elements-with-transparent-background/7108.jpg) no-repeat center center fixed;
+      background:url(abc.jpg) no-repeat center center fixed;
 	color:#000;
 	background-size: cover;
 	 -webkit-background-size: cover;
   -moz-background-size: cover;
-  -o-background-size: cover;*/
+  -o-background-size: cover;
   background-color:transparent;
         font-family: 'arial', sans-serif;
 margin:0px;
+
     }
 
     .main2 {
         background-color: transparent;
+        padding-top: 5%;
         width: 100%;
-height:auto;
+        height:auto;
         border-radius: 1.5em;
     }
 
@@ -278,6 +280,7 @@ h1{
 
 
 .maps_container{
+  padding-top: 3%;
   width: 100%;
   margin: 0 auto;
 }
@@ -373,6 +376,13 @@ h1{
   .col-12 {width: 100%;}
 }
 
+.hidden{
+  opacity:0;
+  /*  OR   */
+  position:absolute;
+  left:-999px;
+}
+
 </style>
 
 <body>
@@ -382,98 +392,18 @@ h1{
    <div class="row">
       <div class="col-9 col-s-12">
 
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
-               <div class="col-s-12 col-2">
-            <label class="container">Text1
-            <input type="checkbox" checked="checked">
-            <span class="checkmark"></span>
-            </label>
-        </div>
+          {% if altSehirler %}
+                {% for altSehir in altSehirler %}
+                        <div class="col-s-12 col-2" >
+                            <label class="container">{{altSehir.yerAdi}}
+                            <input type="checkbox" checked="unchecked">
+                            <span class="checkmark"></span>
+                            </label>
+                        </div>
+                {% endfor %}
+         {% else %}
+            <h3>You dont have any permission</h3>
+        {% endif %}
 
     </div>
 
@@ -492,9 +422,9 @@ h1{
 
 
 <ol>
-  <li>test test test test test test test test </li>
-  <li>liste</li>
-  <li>test</li>
+    {% for cityName in sortedCitiesNameList %}
+        <li>{{cityName}}</li>
+    {% endfor %}
 </ol>
 
 
@@ -506,24 +436,38 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  var uluru = {lat: -25.344, lng: 131.036};
-  // The map, centered at Uluru
-  var map = new google.maps.Map(
-      document.getElementById('map'), {zoom: 4, center: uluru});
-  // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: uluru, map: map});
-}
-    </script>
+        // Initialize and add the map
+        function initMap() {
+          // The location of Uluru
+          var x1 = {lat: 40.323464, lng: 36.552193};
+          var x2 = {lat: 41.015137, lng: 28.979530};
+
+          // The map, centered at Uluru
+          var map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 6, center: x1});
+          // The marker, positioned at Tokat,Istanbul
+          var marker = new google.maps.Marker({position: x1, map: map});
+          var marker1 = new google.maps.Marker({position: x2, map: map});
+
+          {% for latVal in sortedCitiesLatList %}
+               {% for lonVal in sortedCitiesLonList %}
+                  {% if forloop.counter == forloop.parentloop.counter %}
+                        var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                        var c = new google.maps.Marker({position: b, map: map});
+                  {% endif %}
+               {% endfor %}
+           {% endfor %}
+
+
+        }
+     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6_6C1NFxCpGyEMqIqmnQPt7ZJz_osa7Q&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6_6C1NFxCpGyEMqIqmnQPt7ZJz_osa7Q&callback=initMap">
     </script>
 
 </body>

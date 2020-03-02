@@ -4,17 +4,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Project</title>
 </head>
+{%load static%}
 <style>
  body {
-        background:url(static/images/background.jpg) no-repeat center center fixed;
+      background:url("{% static 'images/test1.jpg' %}") no-repeat center center fixed;
 	color:#000;
 	background-size: cover;
 	 -webkit-background-size: cover;
   -moz-background-size: cover;
-  -o-background-size: cover;*/
+  -o-background-size: cover;
   background-color:transparent;
         font-family: 'arial', sans-serif;
 margin:0px;
+
     }
 
     .main2 {
@@ -193,6 +195,7 @@ padding: 20px 20px;
   cursor: pointer;
   font-size: 14px;
   font-weight:700;
+  color: white;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
