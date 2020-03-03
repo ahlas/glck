@@ -444,9 +444,12 @@ h1{
           var x1 = {lat: 40.323464, lng: 36.552193};
           var x2 = {lat: 41.015137, lng: 28.979530};
 
+
           // The map, centered at Uluru
           var map = new google.maps.Map(
               document.getElementById('map'), {zoom: 6, center: x1});
+          
+
           // The marker, positioned at Tokat,Istanbul
           var marker = new google.maps.Marker({position: x1, map: map});
           var marker1 = new google.maps.Marker({position: x2, map: map});

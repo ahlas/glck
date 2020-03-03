@@ -5,6 +5,9 @@ from django.http import Http404
 from .TravelAlgorithm.src.travelAlgorithm import findRoute
 from django_pandas.io import read_frame
 
+import geocoder
+from math import sqrt
+
 def homePageView(request):
     return render(request, 'firstPage.html')
 
@@ -57,7 +60,6 @@ def result(request, sehirAdi, sehirID):
         raise Http404("Yetkiniz bulunmamaktadır...")
     return render(request, 'resultPage.html', context)
 
-
 def writeTSPFile(altSehirlerFrame):
     dosya = open("sehirBilgileri.tsp", "w")
 
@@ -78,3 +80,22 @@ NODE_COORD_SECTION
 
     dosya.write("EOF")
     dosya.close()
+
+#--!!! Kişinin konumundan kaç km uzaklıktaki yerleri bulmasını istediğimizde çalışacak fonksiyon
+def findNearestPlaces(request,length):
+
+    myloc = geocoder.ip('me')
+    print("My Location =",myloc.latlng)
+    mylocX = myloc.latlng[0]
+    mylocY = myloc.latlng[1]
+
+    altSehirler = AltSehir.objects.all()
+    resultCities = []
+
+    # -------- Belirtilen uzunluktaki filtre yapıldıktan sonra hangi gezilecek yerlerin olduğunun listesi yapılıyor.
+    for a in range(len(altSehirler)):
+        temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
+        if temp <= length:
+            resultCities.append(altSehirler.iloc[a])
+
+
