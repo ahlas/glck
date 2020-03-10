@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^$', views.homePageView, name='index'),
     url(r'detail/', views.detail, name='detail'),
     #url(r'^(\d+)/$', views.result, name='result')
-    path('<str:sehirAdi>/<int:sehirID>/', views.result, name='result')
+    #path('<str:sehirAdi>/<int:sehirID>/', views.result, name='result')
+    url(r'result/', views.cityResult, name='cityResult')
 ]

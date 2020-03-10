@@ -32,21 +32,19 @@ def detail(request):
 
     elif modState == MODState.ilSecimi:
         if query.isalpha():
-            sehirler = Sehir.objects.filter(il__startswith=query)
-            context = {
-                'sehirler': sehirler,
-            }
-            # Html koduna ilgili değerleri context ile gönderiyoruz
-            return render(request, 'detailPage.html', context)
+            #Secili sehir id sini gönderiyoruz
+            sehirID = Sehir.objects.filter(il=query).values('id')[0]['id']
+            context = cityResult(request, sehirID)
+            return render(request, 'resultPage.html', context)
+
         else:
             return render(request, "wrongValue.html")
     else:
         return render(request, 'block.html')
 
-    #sehirler = Sehir.objects.all()
 
-
-def result(request, sehirAdi, sehirID):
+#Bulunan sehir için altSehirler listelenip en kısa mesafe bulunup ilgili ekran açılıyor
+def cityResult(request,sehirID):
     try:
         altSehirler = AltSehir.objects.filter(sehir_id=sehirID)
 
@@ -82,7 +80,8 @@ def result(request, sehirAdi, sehirID):
 
     except Sehir.DoesNotExist:
         raise Http404("Yetkiniz bulunmamaktadır...")
-    return render(request, 'resultPage.html', context)
+
+    return context
 
 def writeTSPFile(altSehirlerFrame):
     dosya = open("sehirBilgileri.tsp", "w")
