@@ -4,25 +4,47 @@ from .models import Sehir,AltSehir
 from django.http import Http404
 from .TravelAlgorithm.src.travelAlgorithm import findRoute
 from django_pandas.io import read_frame
+from .Enums.EnumPackage import MODState
 
 import geocoder
 from math import sqrt
-
 
 def homePageView(request):
     return render(request, 'firstPage.html')
 
 def detail(request):
+    modState = MODState.ilSecimi
     checkList = request.GET.getlist('checks[]')
+    query = request.GET['lastname']
+
+    if len(checkList) != 0:
+        for j in range(len(checkList)):
+            if checkList[j]=="mod":
+                modState = MODState.yakinCevre
+
+
+    if modState == MODState.yakinCevre:
+        if query.isdigit():
+            value = int(query)
+            #Buraya mesafe arasinda şehirler listelenip eklenicek
+        else:
+            return render(request, "wrongValue.html")
+
+    elif modState == MODState.ilSecimi:
+        if query.isalpha():
+            sehirler = Sehir.objects.filter(il__startswith=query)
+            context = {
+                'sehirler': sehirler,
+            }
+            # Html koduna ilgili değerleri context ile gönderiyoruz
+            return render(request, 'detailPage.html', context)
+        else:
+            return render(request, "wrongValue.html")
+    else:
+        return render(request, 'block.html')
 
     #sehirler = Sehir.objects.all()
-    query = request.GET['lastname']
-    sehirler = Sehir.objects.filter(il__startswith=query)
-    context = {
-        'sehirler': sehirler,
-    }
-    #Html koduna ilgili değerleri context ile gönderiyoruz
-    return render(request, 'detailPage.html', context)
+
 
 def result(request, sehirAdi, sehirID):
     try:
