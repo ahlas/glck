@@ -438,27 +438,26 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
-        // Initialize and add the map
         function initMap() {
           // The location of Uluru
           var x1 = {lat: 40.323464, lng: 36.552193};
           var x2 = {lat: 41.015137, lng: 28.979530};
 
-
           // The map, centered at Uluru
           var map = new google.maps.Map(
               document.getElementById('map'), {zoom: 6, center: x1});
-          
-
           // The marker, positioned at Tokat,Istanbul
           var marker = new google.maps.Marker({position: x1, map: map});
           var marker1 = new google.maps.Marker({position: x2, map: map});
 
+          var tt = 1;
+          //var ta = "b";
           {% for latVal in sortedCitiesLatList %}
                {% for lonVal in sortedCitiesLonList %}
                   {% if forloop.counter == forloop.parentloop.counter %}
                         var b = {lat: {{latVal}}, lng: {{lonVal}}};
-                        var c = new google.maps.Marker({position: b, map: map});
+                        var c = new google.maps.Marker({position: b,label:tt.toString(), map: map});
+                        tt = tt+1;
                   {% endif %}
                {% endfor %}
            {% endfor %}
