@@ -8,6 +8,7 @@ from django_pandas.io import read_frame
 import geocoder
 from math import sqrt
 
+
 def homePageView(request):
     return render(request, 'firstPage.html')
 
@@ -47,6 +48,7 @@ def result(request, sehirAdi, sehirID):
             sortedCitiesLatList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-1]['konumX'])
             sortedCitiesLonList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city']) - 1]['konumY'])
             sortedCitiesSize.append(int(a))
+            print("TEST=",altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-1]['yerAdi'])
 
         context = {
             'altSehirler': altSehirler,
@@ -97,5 +99,3 @@ def findNearestPlaces(request,length):
         temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
         if temp <= length:
             resultCities.append(altSehirler.iloc[a])
-
-

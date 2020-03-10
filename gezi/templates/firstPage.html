@@ -353,15 +353,25 @@ h1{
      <div class="logo"><img src="static/images/gff.gif" width="620" height="100" alt="logo" /></div>
 
      <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+        <input type="checkbox" name="onoffswitch" onclick="handleClick(this);" class="onoffswitch-checkbox" id="myonoffswitch" checked>
         <label class="onoffswitch-label" for="myonoffswitch">
             <span class="onoffswitch-inner"></span>
             <span class="onoffswitch-switch"></span>
         </label>
     </div>
 
-      <input style="background-color: #FFFFFF" class="searchinput "  id="searchArea" name="lastname" type="text" align="center" placeholder="Search">
+      <input style="background-color: #FFFFFF" class="searchinput" id="searchArea" name="lastname" type="text" align="center" placeholder="Km Giriniz...">
       <button type="submit">Search</button>
+
+      <script>
+        function handleClick(cb) {
+            if (cb.checked) {
+                document.getElementById("searchArea").placeholder = "Km Giriniz...";
+            } else {
+                document.getElementById("searchArea").placeholder = "Şehir İsmini Giriniz...";
+            }
+        }
+      </script>
 
      <div class="checkboxContainer">
      <label class="container" value="doga">Doğa/Kamp
