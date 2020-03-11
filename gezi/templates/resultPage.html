@@ -438,6 +438,7 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
+
         function initMap() {
           // The location of Uluru
           var x1 = {lat: 40.323464, lng: 36.552193};
@@ -456,14 +457,20 @@ h1{
                {% for lonVal in sortedCitiesLonList %}
                   {% if forloop.counter == forloop.parentloop.counter %}
                         var b = {lat: {{latVal}}, lng: {{lonVal}}};
-                        var c = new google.maps.Marker({position: b,label:tt.toString(), map: map});
+                        var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
                         tt = tt+1;
+
+                        specific_marker.addListener('click', function() {
+                            map.setZoom(8);
+                            map.setCenter(specific_marker.getPosition());
+                         });
+
                   {% endif %}
                {% endfor %}
            {% endfor %}
 
-
         }
+
      </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
