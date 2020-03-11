@@ -460,10 +460,13 @@ h1{
                         var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
                         tt = tt+1;
 
-                        specific_marker.addListener('click', function() {
-                            map.setZoom(8);
-                            map.setCenter(specific_marker.getPosition());
-                         });
+                         google.maps.event.addListener(specific_marker, 'click', function() {
+                            var lat = specific_marker.getPosition().lat();
+                            var lng = specific_marker.getPosition().lng();
+                            specific_marker.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                            //window.location.href = specific_marker.url;
+                            window.open(specific_marker.url);
+                        });
 
                   {% endif %}
                {% endfor %}
