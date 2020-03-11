@@ -30,7 +30,7 @@ def findRoute():
 
     #Sıralanmis City List'i
     for a in range(len(cityS)):
-        print("Cities=", a, " ", cityS.iloc[a]['city'])
+        print("CitiesAAA=", a, " ", cityS.iloc[a]['city'])
 
     problem = problem.reindex(route)
 
