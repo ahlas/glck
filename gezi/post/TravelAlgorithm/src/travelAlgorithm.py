@@ -14,7 +14,7 @@ import geocoder
 def findRoute():
 
     myloc = geocoder.ip('me')
-    print("My Location =",myloc.latlng)
+    print("My Location lat lon =", myloc.latlng)
 
     dosya = open("deneme.txt", "w")
     dosya.write("Merhaba Millet :)")
