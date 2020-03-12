@@ -64,7 +64,7 @@ float:left;
  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
     }
 
-    form.form1 {
+    form. form2 {
         /*padding-top: 40px;*/
     }
 
@@ -83,7 +83,7 @@ float:left;
  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
     }
 
-form.form1 button {
+form. form2 button {
   float: left;
   width: 20%;
   padding: 10px;
@@ -97,11 +97,11 @@ form.form1 button {
   border-radius:0px 20px 20px 0px;
 }
 
-	form.form1 button:hover {
+	form. form2 button:hover {
   background: #E040FB;
 }
 
-form.form1::after {
+form. form2::after {
   content: "";
   clear: both;
   display: table;
@@ -389,31 +389,28 @@ h1{
 
 <body>
  <div class="main2">
-    <form class="form1">
+       <div class="row">
+              <div class="col-9 col-s-12">
 
-   <div class="row">
-      <div class="col-9 col-s-12">
+                  {% if altSehirler %}
+                        {% for altSehir in altSehirler %}
+                                <div class="col-s-12 col-2" >
+                                    <label class="container">{{altSehir.yerAdi}}
+                                    <input type="checkbox" checked="unchecked">
+                                    <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                        {% endfor %}
+                 {% else %}
+                    <h3>You dont have any permission</h3>
+                {% endif %}
 
-          {% if altSehirler %}
-                {% for altSehir in altSehirler %}
-                        <div class="col-s-12 col-2" >
-                            <label class="container">{{altSehir.yerAdi}}
-                            <input type="checkbox" checked="unchecked">
-                            <span class="checkmark"></span>
-                            </label>
-                        </div>
-                {% endfor %}
-         {% else %}
-            <h3>You dont have any permission</h3>
-        {% endif %}
+            </div>
 
-    </div>
-
-     <div class="col-2 col-s-12 buttonHiza">
-             <button type="submit" id="rotaBul" class="button2">Button</button>
-    </div>
-    </div>
-    </form>
+             <div class="col-2 col-s-12 buttonHiza">
+                     <button type="submit" id="rotaBul" class="button2">Button</button>
+            </div>
+        </div>
 
 <br />
 <div class="maps_container">
@@ -482,10 +479,15 @@ h1{
                     {% for latVal in sortedCitiesLatList %}
                          {% for lonVal in sortedCitiesLonList %}
                               {% if forloop.counter == forloop.parentloop.counter %}
+                                   {% if not forloop.last %}
                                        waypts.push({
                                            location: new google.maps.LatLng({{latVal}},{{lonVal}}),
-                                           stopover: true
+                                           stopover: false
                                        });
+                                   {% else %}
+                                        lastPlaceLat = {{latVal}};
+                                        lastPlaceLon = {{lonVal}};
+                                   {% endif %}
                               {% endif %}
                          {% endfor %}
                     {% endfor %}
@@ -495,10 +497,10 @@ h1{
 
                     directionsService.route({
                       origin: start,
-                      destination: "İzmir",
+                      destination: end,
                       waypoints: waypts,
                       optimizeWaypoints: true,
-                      travelMode: 'DRIVING'
+                      travelMode: 'DRIVING',
                     }, function(response, status) {
                       if (status === 'OK') {
                         directionsRenderer.setDirections(response);
