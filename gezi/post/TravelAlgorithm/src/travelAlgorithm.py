@@ -24,7 +24,7 @@ def findRoute():
 
     locationFlag = False
 
-    cityAndRoute = som(problem, 30,locationFlag)
+    cityAndRoute = som(problem, 100,locationFlag)
     route = cityAndRoute[0]
     cityS = cityAndRoute[1]
 

@@ -447,12 +447,8 @@ h1{
           // The map, centered at Uluru
           var map = new google.maps.Map(
               document.getElementById('map'), {zoom: 6, center: x1});
-          // The marker, positioned at Tokat,Istanbul
-          var marker = new google.maps.Marker({position: x1, map: map});
-          var marker1 = new google.maps.Marker({position: x2, map: map});
 
           var tt = 1;
-          //var ta = "b";
           {% for latVal in sortedCitiesLatList %}
                {% for lonVal in sortedCitiesLonList %}
                   {% if forloop.counter == forloop.parentloop.counter %}
@@ -460,12 +456,12 @@ h1{
                         var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
                         tt = tt+1;
 
-                         google.maps.event.addListener(specific_marker, 'click', function() {
-                            var lat = specific_marker.getPosition().lat();
-                            var lng = specific_marker.getPosition().lng();
-                            specific_marker.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
-                            //window.location.href = specific_marker.url;
-                            window.open(specific_marker.url);
+                        google.maps.event.addListener(specific_marker, 'click', function() {
+                            var lat = this.getPosition().lat();
+                            var lng = this.getPosition().lng();
+                            this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                            //window.location.href = myList[tt-2].url;
+                            window.open(this.url);
                         });
 
                   {% endif %}
