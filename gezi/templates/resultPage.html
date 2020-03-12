@@ -410,9 +410,7 @@ h1{
     </div>
 
      <div class="col-2 col-s-12 buttonHiza">
-
-             <button type="submit" class="button2">Button</button>
-
+             <button type="submit" id="rotaBul" class="button2">Button</button>
     </div>
     </div>
     </form>
@@ -438,38 +436,77 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
-
         function initMap() {
-          // The location of Uluru
-          var x1 = {lat: 40.323464, lng: 36.552193};
-          var x2 = {lat: 41.015137, lng: 28.979530};
+              // The location of Uluru
+              var x1 = {lat: 40.323464, lng: 36.552193};
+              var x2 = {lat: 41.015137, lng: 28.979530};
 
-          // The map, centered at Uluru
-          var map = new google.maps.Map(
-              document.getElementById('map'), {zoom: 6, center: x1});
+              // The map, centered at Uluru
+              var map = new google.maps.Map(
+                  document.getElementById('map'), {zoom: 6, center: x1});
 
-          var tt = 1;
-          {% for latVal in sortedCitiesLatList %}
-               {% for lonVal in sortedCitiesLonList %}
-                  {% if forloop.counter == forloop.parentloop.counter %}
-                        var b = {lat: {{latVal}}, lng: {{lonVal}}};
-                        var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
-                        tt = tt+1;
+              var directionsService = new google.maps.DirectionsService;
+              var directionsRenderer = new google.maps.DirectionsRenderer;
+              directionsRenderer.setMap(map);
 
-                        google.maps.event.addListener(specific_marker, 'click', function() {
-                            var lat = this.getPosition().lat();
-                            var lng = this.getPosition().lng();
-                            this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
-                            //window.location.href = myList[tt-2].url;
-                            window.open(this.url);
-                        });
+              document.getElementById('rotaBul').addEventListener('click', function() {
+                        calculateAndDisplayRoute(directionsService, directionsRenderer);
+              });
 
-                  {% endif %}
+              var tt = 1;
+              {% for latVal in sortedCitiesLatList %}
+                   {% for lonVal in sortedCitiesLonList %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                            var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                            var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
+                            tt = tt+1;
+
+                            google.maps.event.addListener(specific_marker, 'click', function() {
+                                var lat = this.getPosition().lat();
+                                var lng = this.getPosition().lng();
+                                this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                                //window.location.href = myList[tt-2].url;
+                                window.open(this.url);
+                            });
+
+                      {% endif %}
+                   {% endfor %}
                {% endfor %}
-           {% endfor %}
+
 
         }
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+                    var waypts = [];
+                    var lastPlaceLat = 0;
+                    var lastPlaceLon = 0;
+                    {% for latVal in sortedCitiesLatList %}
+                         {% for lonVal in sortedCitiesLonList %}
+                              {% if forloop.counter == forloop.parentloop.counter %}
+                                       waypts.push({
+                                           location: new google.maps.LatLng({{latVal}},{{lonVal}}),
+                                           stopover: true
+                                       });
+                              {% endif %}
+                         {% endfor %}
+                    {% endfor %}
 
+                    var start = new google.maps.LatLng(39.9199, 32.8543);
+                    var end = new google.maps.LatLng(lastPlaceLat, lastPlaceLon);
+
+                    directionsService.route({
+                      origin: start,
+                      destination: "İzmir",
+                      waypoints: waypts,
+                      optimizeWaypoints: true,
+                      travelMode: 'DRIVING'
+                    }, function(response, status) {
+                      if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                      } else {
+                        window.alert('Directions request failed due to ' + status);
+                      }
+                    });
+        }
      </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
