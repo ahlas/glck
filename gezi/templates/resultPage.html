@@ -408,7 +408,9 @@ h1{
             </div>
 
              <div class="col-2 col-s-12 buttonHiza">
-                     <button type="submit" id="rotaBul" class="button2">Button</button>
+                     <button type="submit" id="routeButton" class="button2" onclick="dynamicButton();" >Rota Belirle</button>
+                     <button type="submit" id="wayButton" class="button2" style="visibility: hidden;">Yol güzergahı</button>
+                     <script src="{% static 'script/allScript.js' %}"></script>
             </div>
         </div>
 
@@ -445,8 +447,9 @@ h1{
               var directionsService = new google.maps.DirectionsService;
               var directionsRenderer = new google.maps.DirectionsRenderer;
               directionsRenderer.setMap(map);
+              directionsRenderer.setOptions( { suppressMarkers: true } );
 
-              document.getElementById('rotaBul').addEventListener('click', function() {
+              document.getElementById('wayButton').addEventListener('click', function() {
                         calculateAndDisplayRoute(directionsService, directionsRenderer);
               });
 
@@ -504,6 +507,7 @@ h1{
                     }, function(response, status) {
                       if (status === 'OK') {
                         directionsRenderer.setDirections(response);
+
                       } else {
                         window.alert('Directions request failed due to ' + status);
                       }

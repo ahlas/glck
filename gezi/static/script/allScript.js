@@ -7,3 +7,7 @@ function handleClick(cb) {
                 document.getElementById("searchArea").value="";
             }
 }
+
+function dynamicButton(){
+    document.getElementById("wayButton").style.visibility = "visible"
+}
