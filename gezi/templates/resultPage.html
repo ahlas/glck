@@ -408,7 +408,7 @@ h1{
             </div>
 
              <div class="col-2 col-s-12 buttonHiza">
-                     <button type="submit" id="routeButton" class="button2" onclick="dynamicButton();" >Rota Belirle</button>
+                     <button type="submit" id="routeButton" class="button2" onclick="dynamicButton({% url 'detail' %});" >Rota Belirle</button>
                      <button type="submit" id="wayButton" class="button2" style="visibility: hidden;">Yol güzergahı</button>
                      <script src="{% static 'script/allScript.js' %}"></script>
             </div>

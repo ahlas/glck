@@ -8,6 +8,7 @@ function handleClick(cb) {
             }
 }
 
-function dynamicButton(){
-    document.getElementById("wayButton").style.visibility = "visible"
+function dynamicButton(url){
+    document.getElementById("wayButton").style.visibility = "visible";
+    window.location.href = url;
 }
