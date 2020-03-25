@@ -6,7 +6,6 @@ from .TravelAlgorithm.src.travelAlgorithm import findRoute
 from django_pandas.io import read_frame
 from .Enums.EnumPackage import MODState,rotaStateEnum
 from .Utilities.utilities import uzaklikHesaplama
-
 import geocoder
 from math import sqrt
 from itertools import chain
@@ -24,6 +23,7 @@ def detail(request):
 
     global rotaStateFlag
     global globalModState
+
 
     if rotaStateFlag == rotaStateEnum.firstState: # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
             modState = MODState.ilSecimi
@@ -61,7 +61,7 @@ def detail(request):
             else:
                 return render(request, 'block.html')
 
-    elif rotaStateFlag == rotaStateEnum.secondState:
+    elif rotaStateFlag == rotaStateEnum.thirdState:
         #rotaStateFlag = True  # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
         if globalModState == MODState.yakinCevre:
             # Buraya mesafe arasinda şehirler listelenip eklenicek
@@ -75,12 +75,15 @@ def detail(request):
         else:
              return render(request, 'block.html')
 
+
 #Bulunan sehir için altSehirler listelenip en kısa mesafe bulunup ilgili ekran açılıyor
 def cityResult(request,sehirID):
     try:
         altSehirler = AltSehir.objects.filter(sehir_id=sehirID)
 
         global subCitiesList
+        global rotaStateFlag
+
         subCitiesList = altSehirler
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
@@ -100,6 +103,7 @@ def cityResult(request,sehirID):
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
             'wayPointFlag': wayPointFlag,
+            'rotaStateFlag': rotaStateFlag,
         }
 
     except Sehir.DoesNotExist:
@@ -111,6 +115,8 @@ def cityResultMap(request):
     try:
         # -------------------    Verileri çekme denemeleri ----------------------
         global subCitiesList
+        global rotaStateFlag
+
         altSehirlerFrame = read_frame(subCitiesList)
         #-------------------- Database'deki verileri uygun formata çeviriyoruz ----------
         writeTSPFile(altSehirlerFrame)
@@ -138,6 +144,7 @@ def cityResultMap(request):
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
             'wayPointFlag': wayPointFlag,
+            'rotaStateFlag': rotaStateFlag,
         }
 
     except Sehir.DoesNotExist:
@@ -149,6 +156,7 @@ def cityResultMap(request):
 def findNearestPlaces(request,length):
     try:
         global subCitiesList
+        global rotaStateFlag
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
@@ -186,6 +194,7 @@ def findNearestPlaces(request,length):
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
             'wayPointFlag': wayPointFlag,
+            'rotaStateFlag': rotaStateFlag,
         }
 
     except Sehir.DoesNotExist:
@@ -196,6 +205,7 @@ def findNearestPlaces(request,length):
 def findNearestPlacesMap(request):
     try:
         global subCitiesList
+        global rotaStateFlag
 
         resultCities = pd.DataFrame(subCitiesList)
         writeTSPFile(resultCities)
@@ -225,6 +235,7 @@ def findNearestPlacesMap(request):
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
             'wayPointFlag': wayPointFlag,
+            'rotaStateFlag': rotaStateFlag,
         }
 
     except Sehir.DoesNotExist:
@@ -258,3 +269,9 @@ NODE_COORD_SECTION
     dosya.write("EOF")
     dosya.close()
 
+
+def updateRotateStateFlagFunction(value):
+    global rotaStateFlag
+    if rotaStateFlag == rotaStateEnum.secondState:
+        rotaStateFlag = rotaStateEnum.thirdState
+    return rotaStateFlag

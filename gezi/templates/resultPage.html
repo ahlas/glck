@@ -5,6 +5,7 @@
 <title>Project</title>
 </head>
 {%load static%}
+{%load djangoTemplateTagFile %}
 <style>
  body {
       background:url("{% static 'images/test1.jpg' %}") no-repeat center center fixed;
@@ -387,7 +388,7 @@ h1{
 
 </style>
 
-<body>
+<body onhashchange="hashChangeFunction()" onload="pageLoadFinishFunction()">
  <div class="main2">
        <div class="row">
               <div class="col-9 col-s-12">
@@ -451,6 +452,7 @@ h1{
 
               document.getElementById('wayButton').addEventListener('click', function() {
                         calculateAndDisplayRoute(directionsService, directionsRenderer);
+                        {{ 12|updateRotateStateFlag }}
               });
 
               var tt = 1;

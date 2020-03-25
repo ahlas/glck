@@ -8,7 +8,12 @@ function handleClick(cb) {
             }
 }
 
+// Sayfanın en kısa yolu bulduktan sonra tekrar update etmesi olayı için sayfa yenileme işlemi yaptırılıyor
 function dynamicButton(url){
-    document.getElementById("wayButton").style.visibility = "visible";
     window.location.href = url;
+}
+
+// ROta bulma işlemi yaptırıldıktan sonra sayfanın wayPointleri göstermesi(rota çizgisini) için çalışan fonksiyon
+function pageLoadFinishFunction(){
+    document.getElementById("wayButton").click();
 }
