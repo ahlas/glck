@@ -23,12 +23,16 @@ def detail(request):
 
     global rotaStateFlag
     global globalModState
+    global globalCheckList
+    global globalQuery
 
 
     if rotaStateFlag == rotaStateEnum.firstState: # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
             modState = MODState.ilSecimi
             checkList = request.GET.getlist('checks[]')
+            globalCheckList = checkList
             query = request.GET['lastname']
+            globalQuery = query
 
             if len(checkList) != 0:
                 for j in range(len(checkList)):
@@ -60,20 +64,62 @@ def detail(request):
                     return render(request, "wrongValue.html")
             else:
                 return render(request, 'block.html')
+    else:
 
-    elif rotaStateFlag == rotaStateEnum.thirdState:
-        #rotaStateFlag = True  # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
-        if globalModState == MODState.yakinCevre:
-            # Buraya mesafe arasinda şehirler listelenip eklenicek
-            context = findNearestPlacesMap(request)
-            return render(request, 'resultPage.html', context)
+        completed = request.GET.get('changeStatus1','')
+        try:
+           if completed == "actionState":
+               rotaStateFlag = rotaStateEnum.thirdState
+           else:
+               rotaStateFlag = rotaStateEnum.secondState
+        except:
+            print("ERRORR")
 
-        elif globalModState == MODState.ilSecimi:
-            context = cityResultMap(request)
-            return render(request, 'resultPage.html', context)
+        if rotaStateFlag == rotaStateEnum.secondState:
+            if len(globalCheckList) != 0:
+                for j in range(len(globalCheckList)):
+                    if globalCheckList[j] == "mod":
+                        globalModState = MODState.yakinCevre
 
-        else:
-             return render(request, 'block.html')
+            if globalModState == MODState.yakinCevre:
+                if globalQuery.isdigit():
+                    rotaStateFlag = rotaStateEnum.secondState
+                    globalModState = MODState.yakinCevre
+                    value = int(globalQuery)
+                    # Buraya mesafe arasinda şehirler listelenip eklenicek
+                    context = findNearestPlaces(request, value)
+                    return render(request, 'resultPage.html', context)
+                else:
+                    return render(request, "wrongValue.html")
+
+            elif globalModState == MODState.ilSecimi:
+                if globalQuery.isalpha():
+                    rotaStateFlag = rotaStateEnum.secondState
+                    globalModState = MODState.ilSecimi
+                    # Secili sehir id sini gönderiyoruz
+                    sehirID = Sehir.objects.filter(il=globalQuery).values('id')[0]['id']
+                    context = cityResult(request, sehirID)
+                    return render(request, 'resultPage.html', context)
+
+                else:
+                    return render(request, "wrongValue.html")
+            else:
+                return render(request, 'block.html')
+
+
+        elif rotaStateFlag == rotaStateEnum.thirdState:
+            #rotaStateFlag = True  # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
+            if globalModState == MODState.yakinCevre:
+                # Buraya mesafe arasinda şehirler listelenip eklenicek
+                context = findNearestPlacesMap(request)
+                return render(request, 'resultPage.html', context)
+
+            elif globalModState == MODState.ilSecimi:
+                context = cityResultMap(request)
+                return render(request, 'resultPage.html', context)
+
+            else:
+                 return render(request, 'block.html')
 
 
 #Bulunan sehir için altSehirler listelenip en kısa mesafe bulunup ilgili ekran açılıyor
