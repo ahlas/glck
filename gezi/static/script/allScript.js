@@ -12,6 +12,7 @@ function handleClick(cb) {
 function dynamicButton(url){
     //window.location.href = url;
     //window.location.reload(true);
+
     document.getElementById("xdemR").value="actionState";
     document.getElementById("xdemR1").click();
     //document.getElementById("xdemR").value = "True";

@@ -1,6 +1,6 @@
 import pandas as pd
 from django.shortcuts import render, HttpResponse
-from .models import Sehir,AltSehir
+from .models import Sehir,AltSehir,Oteller,Restaurantlar
 from django.http import Http404
 from .TravelAlgorithm.src.travelAlgorithm import findRoute
 from django_pandas.io import read_frame
@@ -11,16 +11,32 @@ from math import sqrt
 from itertools import chain
 
 subCitiesList = []
+subHotelList = []
+subRestaurantList = []
 rotaStateFlag = rotaStateEnum.firstState
 globalModState = MODState.ilSecimi
+activateRotate = "No"
+activateHotel = "No"
+activeRestaurant = "No"
 
 def homePageView(request):
     global rotaStateFlag
+    global activateRotate
+    global activateHotel
+    global activeRestaurant
+
+    activateRotate="No"
+    activateHotel = "No"
+    activeRestaurant = "No"
+
     rotaStateFlag = rotaStateEnum.firstState
     return render(request, 'firstPage.html')
 
 def detail(request):
 
+    global activateRotate
+    global activateHotel
+    global activeRestaurant
     global rotaStateFlag
     global globalModState
     global globalCheckList
@@ -76,6 +92,7 @@ def detail(request):
             print("ERRORR")
 
         if rotaStateFlag == rotaStateEnum.secondState:
+            activateRotate = "No"
             if len(globalCheckList) != 0:
                 for j in range(len(globalCheckList)):
                     if globalCheckList[j] == "mod":
@@ -108,6 +125,7 @@ def detail(request):
 
 
         elif rotaStateFlag == rotaStateEnum.thirdState:
+            activateRotate = "Yes"
             #rotaStateFlag = True  # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
             if globalModState == MODState.yakinCevre:
                 # Buraya mesafe arasinda şehirler listelenip eklenicek
@@ -126,14 +144,21 @@ def detail(request):
 def cityResult(request,sehirID):
     try:
         altSehirler = AltSehir.objects.filter(sehir_id=sehirID)
+        oteller = Oteller.objects.filter(sehir_id=sehirID)
+        restaurantlar = Restaurantlar.objects.filter(sehir_id=sehirID)
 
+        global activateRotate
+        global activateHotel
+        global activeRestaurant
         global subCitiesList
         global rotaStateFlag
+        global subHotelList
+        global subRestaurantList
 
-        subCitiesList = altSehirler
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
-
+        otellerFrame = read_frame(oteller)
+        restaurantlarFrame = read_frame(restaurantlar)
         # ---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
         sortedCitiesNameList = []
         sortedCitiesLatList = []
@@ -141,15 +166,57 @@ def cityResult(request,sehirID):
         sortedCitiesSize = []
 
         subCitiesList = altSehirler
+        subHotelList = oteller
+        subRestaurantList = restaurantlar
+
+        #----- Oteller Listesi
+        hotelsNameList = []
+        hotelsLatList = []
+        hotelsLonList = []
+        hotelsSize = []
+
+        for a in range(0, len(subHotelList)):
+            hotelsNameList.append(otellerFrame.iloc[a]['otelAdi'])
+            hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
+            hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
+            hotelsSize.append(int(a))
+            print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
+
+        #----- Restaurantlar Listesi
+        RestaurantsNameList = []
+        RestaurantsLatList = []
+        RestaurantsLonList = []
+        RestaurantsSize = []
+
+        for a in range(0, len(subRestaurantList)):
+            RestaurantsNameList.append(restaurantlarFrame.iloc[a]['restaurantAdi'])
+            RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
+            RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
+            RestaurantsSize.append(int(a))
+            print("RESTAURANTLAR=", restaurantlarFrame.iloc[a]['restaurantAdi'])
+
+
         wayPointFlag = False
         context = {
-            'altSehirler': altSehirler,
+            'altSehirler': subCitiesList,
             'sortedCitiesNameList': sortedCitiesNameList,
             'sortedCitiesLatList': sortedCitiesLatList,
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
-            'wayPointFlag': wayPointFlag,
-            'rotaStateFlag': rotaStateFlag,
+            'hotelS': subHotelList,
+            'hotelsNameList': hotelsNameList,
+            'hotelsLatList': hotelsLatList,
+            'hotelsLonList': hotelsLonList,
+            'hotelsSize': hotelsSize,
+            'restaurantS': subRestaurantList,
+            'RestaurantsNameList': RestaurantsNameList,
+            'RestaurantsLatList': RestaurantsLatList,
+            'RestaurantsLonList': RestaurantsLonList,
+            'RestaurantsSize': RestaurantsSize,
+            'activateRotate': activateRotate,
+            'activateHotel': activateHotel,
+            'activeRestaurant': activeRestaurant,
+            'rotaStateFlag': str(rotaStateFlag.value),
         }
 
     except Sehir.DoesNotExist:
@@ -160,10 +227,15 @@ def cityResult(request,sehirID):
 def cityResultMap(request):
     try:
         # -------------------    Verileri çekme denemeleri ----------------------
+        global activateRotate
         global subCitiesList
         global rotaStateFlag
+        global subHotelList
+        global subRestaurantList
 
         altSehirlerFrame = read_frame(subCitiesList)
+        otellerFrame = read_frame(subHotelList)
+        restaurantlarFrame = read_frame(subRestaurantList)
         #-------------------- Database'deki verileri uygun formata çeviriyoruz ----------
         writeTSPFile(altSehirlerFrame)
         # -------------------------- Sıralanmıs Sehir Listesini alıyoruz----------------------------------------------
@@ -182,6 +254,33 @@ def cityResultMap(request):
             sortedCitiesSize.append(int(a))
             print("TEST=",altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-2]['yerAdi'])
 
+
+        #----- Oteller Listesi
+        hotelsNameList = []
+        hotelsLatList = []
+        hotelsLonList = []
+        hotelsSize = []
+
+        for a in range(0, len(subHotelList)):
+            hotelsNameList.append(otellerFrame.iloc[a]['otelAdi'])
+            hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
+            hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
+            hotelsSize.append(int(a))
+            print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
+
+        #----- Restaurantlar Listesi
+        RestaurantsNameList = []
+        RestaurantsLatList = []
+        RestaurantsLonList = []
+        RestaurantsSize = []
+
+        for a in range(0, len(subRestaurantList)):
+            RestaurantsNameList.append(restaurantlarFrame.iloc[a]['restaurantAdi'])
+            RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
+            RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
+            RestaurantsSize.append(int(a))
+            print("RESTAURANTLAR=", restaurantlarFrame.iloc[a]['restaurantAdi'])
+
         wayPointFlag = True
         context = {
             'altSehirler': subCitiesList,
@@ -189,8 +288,18 @@ def cityResultMap(request):
             'sortedCitiesLatList': sortedCitiesLatList,
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
-            'wayPointFlag': wayPointFlag,
-            'rotaStateFlag': rotaStateFlag,
+            'hotelS': subHotelList,
+            'hotelsNameList': hotelsNameList,
+            'hotelsLatList': hotelsLatList,
+            'hotelsLonList': hotelsLonList,
+            'hotelsSize': hotelsSize,
+            'restaurantS': subRestaurantList,
+            'RestaurantsNameList': RestaurantsNameList,
+            'RestaurantsLatList': RestaurantsLatList,
+            'RestaurantsLonList': RestaurantsLonList,
+            'RestaurantsSize': RestaurantsSize,
+            'activateRotate': activateRotate,
+            'rotaStateFlag': str(rotaStateFlag.value),
         }
 
     except Sehir.DoesNotExist:
@@ -201,8 +310,11 @@ def cityResultMap(request):
 #--!!! Kişinin konumundan kaç km uzaklıktaki yerleri bulmasını istediğimizde çalışacak fonksiyon
 def findNearestPlaces(request,length):
     try:
+        global activateRotate
         global subCitiesList
         global rotaStateFlag
+        global subHotelList
+        global subRestaurantList
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
@@ -214,7 +326,6 @@ def findNearestPlaces(request,length):
 
         resultCitiesList = []
 
-
         # -------- Belirtilen uzunluktaki filtre yapıldıktan sonra hangi gezilecek yerlerin olduğunun listesi yapılıyor.
         for a in range(len(altSehirler)):
             #temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
@@ -223,6 +334,69 @@ def findNearestPlaces(request,length):
                 resultCitiesList.append(altSehirler.iloc[a])
         # ---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
         subCitiesList = resultCitiesList
+
+        #--- --------------------------OTELLER ---------------------------------------------------------
+        allOteller = Oteller.objects.all()
+        oteller = read_frame(allOteller)
+        resultOtelList = []
+
+
+        # --------OTEL Belirtilen uzunluktaki filtre yapıldıktan sonra hangi gezilecek yerlerin olduğunun listesi yapılıyor.
+        for a in range(len(oteller)):
+            #temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
+            temp = uzaklikHesaplama(mylocX,mylocY,oteller.iloc[a]['konumX'],oteller.iloc[a]['konumY'])
+            print("OooTEL=", oteller.iloc[a]['otelAdi'], " temp=", temp, "  length=",length)
+            if temp <= length:
+                resultOtelList.append(oteller.iloc[a])
+
+        # ---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
+        subHotelList = resultOtelList
+        # ----- Oteller Listesi
+        hotelsNameList = []
+        hotelsLatList = []
+        hotelsLonList = []
+        hotelsSize = []
+
+        for a in range(0, len(subHotelList)):
+            hotelsNameList.append(oteller.iloc[a]['otelAdi'])
+            hotelsLatList.append(oteller.iloc[a]['konumX'])
+            hotelsLonList.append(oteller.iloc[a]['konumY'])
+            hotelsSize.append(int(a))
+            print("OTELLER=", oteller.iloc[a]['otelAdi'])
+
+        #----------------------------------------------------------------------------------------------------------------------------
+
+
+        #--- --------------------------RESTAURANTLAR ---------------------------------------------------------
+        allRestaurantlar = Restaurantlar.objects.all()
+        restaurantlar = read_frame(allRestaurantlar)
+        resultRestaurantList = []
+
+
+        # --------RESTAURANTLAR Belirtilen uzunluktaki filtre yapıldıktan sonra hangi gezilecek yerlerin olduğunun listesi yapılıyor.
+        for a in range(len(restaurantlar)):
+            #temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
+            temp = uzaklikHesaplama(mylocX,mylocY,restaurantlar.iloc[a]['konumX'],restaurantlar.iloc[a]['konumY'])
+            print("RRRestr=", restaurantlar.iloc[a]['restaurantAdi'], " temp=", temp, "  length=", length)
+            if temp <= length:
+                resultRestaurantList.append(restaurantlar.iloc[a])
+        # ---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
+        subRestaurantList = resultRestaurantList
+        # ----- RESTAURANTLAR Listesi
+        RestaurantsNameList = []
+        RestaurantsLatList = []
+        RestaurantsLonList = []
+        RestaurantsSize = []
+
+        for a in range(0, len(subRestaurantList)):
+            RestaurantsNameList.append(restaurantlar.iloc[a]['restaurantAdi'])
+            RestaurantsLatList.append(restaurantlar.iloc[a]['konumX'])
+            RestaurantsLonList.append(restaurantlar.iloc[a]['konumY'])
+            RestaurantsSize.append(int(a))
+            print("RESTAURANTLAR=", restaurantlar.iloc[a]['restaurantAdi'])
+
+        #----------------------------------------------------------------------------------------------------------------------------
+
 
         sortedCitiesNameList = []
         sortedCitiesLatList = []
@@ -234,13 +408,23 @@ def findNearestPlaces(request,length):
 
         wayPointFlag = False
         context = {
-            'altSehirler': foundCities,
+            'altSehirler': subCitiesList,
             'sortedCitiesNameList': sortedCitiesNameList,
             'sortedCitiesLatList': sortedCitiesLatList,
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
-            'wayPointFlag': wayPointFlag,
-            'rotaStateFlag': rotaStateFlag,
+            'hotelS': subHotelList,
+            'hotelsNameList': hotelsNameList,
+            'hotelsLatList': hotelsLatList,
+            'hotelsLonList': hotelsLonList,
+            'hotelsSize': hotelsSize,
+            'restaurantS': subRestaurantList,
+            'RestaurantsNameList': RestaurantsNameList,
+            'RestaurantsLatList': RestaurantsLatList,
+            'RestaurantsLonList': RestaurantsLonList,
+            'RestaurantsSize': RestaurantsSize,
+            'activateRotate': activateRotate,
+            'rotaStateFlag': str(rotaStateFlag.value),
         }
 
     except Sehir.DoesNotExist:
@@ -250,8 +434,16 @@ def findNearestPlaces(request,length):
 
 def findNearestPlacesMap(request):
     try:
+        global activateRotate
         global subCitiesList
         global rotaStateFlag
+        global subHotelList
+        global subRestaurantList
+
+        myloc = geocoder.ip('me')
+        print("My Location =",myloc.latlng)
+        mylocX = myloc.latlng[0]
+        mylocY = myloc.latlng[1]
 
         resultCities = pd.DataFrame(subCitiesList)
         writeTSPFile(resultCities)
@@ -270,18 +462,62 @@ def findNearestPlacesMap(request):
             sortedCitiesLonList.append(resultCities.iloc[int(sortedCities.iloc[a]['city']) - 2]['konumY'])
             sortedCitiesSize.append(int(a)-1)
 
+            # --- --------------------------OTELLER ---------------------------------------------------------
+            otellerFrame = pd.DataFrame(subHotelList)
+            # ----- Oteller Listesi
+            hotelsNameList = []
+            hotelsLatList = []
+            hotelsLonList = []
+            hotelsSize = []
+
+            for a in range(0, len(subHotelList)):
+                hotelsNameList.append(otellerFrame.iloc[a]['otelAdi'])
+                hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
+                hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
+                hotelsSize.append(int(a))
+                print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
+            # ----------------------------------------------------------------------------------------------------------------------------
+
+            # --- --------------------------RESTAURANTLAR ---------------------------------------------------------
+            restaurantlarFrame = pd.DataFrame(subRestaurantList)
+            # ----- RESTAURANTLAR Listesi
+            RestaurantsNameList = []
+            RestaurantsLatList = []
+            RestaurantsLonList = []
+            RestaurantsSize = []
+
+            for a in range(0, len(subRestaurantList)):
+                RestaurantsNameList.append(restaurantlarFrame.iloc[a]['restaurantAdi'])
+                RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
+                RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
+                RestaurantsSize.append(int(a))
+                print("RESTAURANTLAR=",restaurantlarFrame.iloc[a]['restaurantAdi'])
+
+            # ----------------------------------------------------------------------------------------------------------------------------
+
+
         none_qs = AltSehir.objects.none()
         foundCities = list(chain(none_qs, subCitiesList))
 
         wayPointFlag = True
         context = {
-            'altSehirler': foundCities,
+            'altSehirler': subCitiesList,
             'sortedCitiesNameList': sortedCitiesNameList,
             'sortedCitiesLatList': sortedCitiesLatList,
             'sortedCitiesLonList': sortedCitiesLonList,
             'sortedCitiesSize': sortedCitiesSize,
-            'wayPointFlag': wayPointFlag,
-            'rotaStateFlag': rotaStateFlag,
+            'hotelS': subHotelList,
+            'hotelsNameList': hotelsNameList,
+            'hotelsLatList': hotelsLatList,
+            'hotelsLonList': hotelsLonList,
+            'hotelsSize': hotelsSize,
+            'restaurantS': subRestaurantList,
+            'RestaurantsNameList': RestaurantsNameList,
+            'RestaurantsLatList': RestaurantsLatList,
+            'RestaurantsLonList': RestaurantsLonList,
+            'RestaurantsSize': RestaurantsSize,
+            'activateRotate': activateRotate,
+            'rotaStateFlag': str(rotaStateFlag.value),
         }
 
     except Sehir.DoesNotExist:
@@ -321,3 +557,4 @@ def updateRotateStateFlagFunction(value):
     if rotaStateFlag == rotaStateEnum.secondState:
         rotaStateFlag = rotaStateEnum.thirdState
     return rotaStateFlag
+

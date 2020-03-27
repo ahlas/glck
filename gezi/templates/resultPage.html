@@ -5,7 +5,6 @@
 <title>Project</title>
 </head>
 {%load static%}
-{%load djangoTemplateTagFile %}
 <style>
  body {
       background:url("{% static 'images/test1.jpg' %}") no-repeat center center fixed;
@@ -409,7 +408,9 @@ h1{
             </div>
 
              <div class="col-2 col-s-12 buttonHiza">
-                     <button type="submit" id="routeButton" class="button2" onclick="dynamicButton({% url 'detail' %});" >Rota Belirle</button>
+                     <button type="submit" id="routeButton" class="button2" >Rota Belirle</button>
+                     <button type="submit" id="hotelsButton" class="button2" >Otelleri Göster</button>
+                     <button type="submit" id="restaurantButton" class="button2" >Restaurantları Göster</button>
                      <button type="submit" id="wayButton" class="button2" style="visibility: hidden;">Yol güzergahı</button>
                      <script src="{% static 'script/allScript.js' %}"></script>
             </div>
@@ -436,6 +437,9 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
+        var hotelFlag = 1;
+        var restaurantFlag = 1;
+
         function initMap() {
               // The location of Uluru
               var x1 = {lat: 40.323464, lng: 36.552193};
@@ -450,9 +454,79 @@ h1{
               directionsRenderer.setMap(map);
               directionsRenderer.setOptions( { suppressMarkers: true } );
 
+              //Bu kısım otel ve restaurantların anasayfadan gelince temizlenmesi için yapılıyor
+              var statusRotate = {{rotaStateFlag}};
+              if(statusRotate == 11){
+                localStorage.setItem("activeHotel", "No");
+                localStorage.setItem("activeRestaurant", "No");
+              }
+
+
+              document.getElementById('routeButton').addEventListener('click', function() {
+                        dynamicButton({% url 'detail' %});
+              });
+
+
+
               document.getElementById('wayButton').addEventListener('click', function() {
+                        var activated = "{{activateRotate}}";
+                        if(activated == "Yes"){
+                            calculateAndDisplayRoute(directionsService, directionsRenderer);
+                        }
+                        var hotelResult = localStorage.getItem("activeHotel");
+                        if(hotelResult == "Yes"){
+                            document.getElementById('hotelsButton').click();
+                        }
+
+                        var restaurantResult = localStorage.getItem("activeRestaurant");
+                        if(restaurantResult == "Yes"){
+                            document.getElementById('restaurantButton').click();
+                        }
+              });
+
+
+
+               document.getElementById('hotelsButton').addEventListener('click', function() {
+                        localStorage.setItem("activeHotel", "Yes");
                         calculateAndDisplayRoute(directionsService, directionsRenderer);
-                        {{ 12|updateRotateStateFlag }}
+                         {% for latVal in hotelsLatList %}
+                               {% for lonVal in hotelsLonList %}
+                                  {% if forloop.counter == forloop.parentloop.counter %}
+                                        var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                                        var specific_marker = new google.maps.Marker({position: b, map: map,icon: '{% static 'images/icon56.png' %}'});
+
+                                        google.maps.event.addListener(specific_marker, 'click', function() {
+                                            var lat = this.getPosition().lat();
+                                            var lng = this.getPosition().lng();
+                                            this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                                            //window.location.href = myList[tt-2].url;
+                                            window.open(this.url);
+                                        });
+
+                                  {% endif %}
+                               {% endfor %}
+                           {% endfor %}
+              });
+
+              document.getElementById('restaurantButton').addEventListener('click', function() {
+                    localStorage.setItem("activeRestaurant", "Yes");
+                    {% for latVal in RestaurantsLatList %}
+                       {% for lonVal in RestaurantsLonList %}
+                          {% if forloop.counter == forloop.parentloop.counter %}
+                                var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                                var specific_marker = new google.maps.Marker({position: b, map: map,icon: '{% static 'images/icon42.png' %}'});
+
+                                google.maps.event.addListener(specific_marker, 'click', function() {
+                                    var lat = this.getPosition().lat();
+                                    var lng = this.getPosition().lng();
+                                    this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                                    //window.location.href = myList[tt-2].url;
+                                    window.open(this.url);
+                                });
+
+                          {% endif %}
+                       {% endfor %}
+                   {% endfor %}
               });
 
               var tt = 1;
@@ -460,7 +534,7 @@ h1{
                    {% for lonVal in sortedCitiesLonList %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                             var b = {lat: {{latVal}}, lng: {{lonVal}}};
-                            var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map,icon: '{% static 'images/icon56.png' %}'});
+                            var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
                             tt = tt+1;
 
                             google.maps.event.addListener(specific_marker, 'click', function() {
@@ -474,7 +548,6 @@ h1{
                       {% endif %}
                    {% endfor %}
                {% endfor %}
-
 
         }
         function calculateAndDisplayRoute(directionsService, directionsRenderer) {
@@ -514,6 +587,46 @@ h1{
                         window.alert('Directions request failed due to ' + status);
                       }
                     });
+        }
+
+        function hotelListFunction(){
+               {% for latVal in hotelsLatList %}
+                   {% for lonVal in hotelsLonList %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                            var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                            var specific_marker = new google.maps.Marker({position: b, map: map,icon: '{% static 'images/icon56.png' %}'});
+
+                            google.maps.event.addListener(specific_marker, 'click', function() {
+                                var lat = this.getPosition().lat();
+                                var lng = this.getPosition().lng();
+                                this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                                //window.location.href = myList[tt-2].url;
+                                window.open(this.url);
+                            });
+
+                      {% endif %}
+                   {% endfor %}
+               {% endfor %}
+        }
+
+        function restaurantListFunction(){
+                {% for latVal in RestaurantsLatList %}
+                   {% for lonVal in RestaurantsLonList %}
+                      {% if forloop.counter == forloop.parentloop.counter %}
+                            var b = {lat: {{latVal}}, lng: {{lonVal}}};
+                            var specific_marker = new google.maps.Marker({position: b, map: map,icon: '{% static 'images/icon42.png' %}'});
+
+                            google.maps.event.addListener(specific_marker, 'click', function() {
+                                var lat = this.getPosition().lat();
+                                var lng = this.getPosition().lng();
+                                this.url = "https://www.google.com/maps/search/?api=1&query="+lat.toString()+","+lng.toString();
+                                //window.location.href = myList[tt-2].url;
+                                window.open(this.url);
+                            });
+
+                      {% endif %}
+                   {% endfor %}
+               {% endfor %}
         }
      </script>
     <!--Load the API from the specified URL
