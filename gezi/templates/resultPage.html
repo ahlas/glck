@@ -460,7 +460,7 @@ h1{
                    {% for lonVal in sortedCitiesLonList %}
                       {% if forloop.counter == forloop.parentloop.counter %}
                             var b = {lat: {{latVal}}, lng: {{lonVal}}};
-                            var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map});
+                            var specific_marker = new google.maps.Marker({position: b,label:tt.toString(), map: map,icon: '{% static 'images/icon56.png' %}'});
                             tt = tt+1;
 
                             google.maps.event.addListener(specific_marker, 'click', function() {

@@ -22,3 +22,22 @@ class AltSehir(models.Model):
     def __str__(self):
         return self.yerAdi
 
+class Oteller(models.Model):
+    sehir       = models.ForeignKey(Sehir,on_delete=models.CASCADE)
+    otelAdi     = models.CharField(max_length=100)
+    otelYildiz  = models.CharField(max_length=10)
+    konumX = models.FloatField()
+    konumY = models.FloatField()
+
+    def __str__(self):
+        return self.otelAdi
+
+class Restaurantlar(models.Model):
+    sehir            = models.ForeignKey(Sehir,on_delete=models.CASCADE)
+    restaurantAdi    = models.CharField(max_length=100)
+    restaurantYildiz = models.CharField(max_length=10)
+    konumX           = models.FloatField()
+    konumY           = models.FloatField()
+
+    def __str__(self):
+        return self.restaurantAdi
