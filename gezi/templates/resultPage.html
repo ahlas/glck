@@ -437,9 +437,6 @@ h1{
 <!--The div element for the map -->
     <div id="map"></div>
     <script>
-        var hotelFlag = 1;
-        var restaurantFlag = 1;
-
         function initMap() {
               // The location of Uluru
               var x1 = {lat: 40.323464, lng: 36.552193};
@@ -455,8 +452,9 @@ h1{
               directionsRenderer.setOptions( { suppressMarkers: true } );
 
               //Bu kısım otel ve restaurantların anasayfadan gelince temizlenmesi için yapılıyor
-              var statusRotate = {{rotaStateFlag}};
-              if(statusRotate == 11){
+              var pageRefresh = "{{firstPageRefresh}}";
+
+              if(pageRefresh == "Yes"){
                 localStorage.setItem("activeHotel", "No");
                 localStorage.setItem("activeRestaurant", "No");
               }
@@ -488,7 +486,6 @@ h1{
 
                document.getElementById('hotelsButton').addEventListener('click', function() {
                         localStorage.setItem("activeHotel", "Yes");
-                        calculateAndDisplayRoute(directionsService, directionsRenderer);
                          {% for latVal in hotelsLatList %}
                                {% for lonVal in hotelsLonList %}
                                   {% if forloop.counter == forloop.parentloop.counter %}

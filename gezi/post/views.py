@@ -14,6 +14,7 @@ subCitiesList = []
 subHotelList = []
 subRestaurantList = []
 rotaStateFlag = rotaStateEnum.firstState
+firstPageRefresh = "Yes"
 globalModState = MODState.ilSecimi
 activateRotate = "No"
 activateHotel = "No"
@@ -24,10 +25,12 @@ def homePageView(request):
     global activateRotate
     global activateHotel
     global activeRestaurant
+    global firstPageRefresh
 
     activateRotate="No"
     activateHotel = "No"
     activeRestaurant = "No"
+    firstPageRefresh = "Yes" #Ana ekrandan diğer ekrana geçerken otel ve restaurantların temizlenip temizlenmemesi olayı için
 
     rotaStateFlag = rotaStateEnum.firstState
     return render(request, 'firstPage.html')
@@ -41,9 +44,11 @@ def detail(request):
     global globalModState
     global globalCheckList
     global globalQuery
+    global firstPageRefresh
 
 
     if rotaStateFlag == rotaStateEnum.firstState: # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
+            firstPageRefresh = "Yes"
             modState = MODState.ilSecimi
             checkList = request.GET.getlist('checks[]')
             globalCheckList = checkList
@@ -80,8 +85,9 @@ def detail(request):
                     return render(request, "wrongValue.html")
             else:
                 return render(request, 'block.html')
-    else:
 
+    else:
+        firstPageRefresh = "No"
         completed = request.GET.get('changeStatus1','')
         try:
            if completed == "actionState":
@@ -154,6 +160,7 @@ def cityResult(request,sehirID):
         global rotaStateFlag
         global subHotelList
         global subRestaurantList
+        global firstPageRefresh
 
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
@@ -216,7 +223,8 @@ def cityResult(request,sehirID):
             'activateRotate': activateRotate,
             'activateHotel': activateHotel,
             'activeRestaurant': activeRestaurant,
-            'rotaStateFlag': str(rotaStateFlag.value),
+            'rotaStateFlag': str(rotaStateEnum(rotaStateFlag).value),
+            'firstPageRefresh': firstPageRefresh,
         }
 
     except Sehir.DoesNotExist:
@@ -232,6 +240,7 @@ def cityResultMap(request):
         global rotaStateFlag
         global subHotelList
         global subRestaurantList
+        global firstPageRefresh
 
         altSehirlerFrame = read_frame(subCitiesList)
         otellerFrame = read_frame(subHotelList)
@@ -299,7 +308,8 @@ def cityResultMap(request):
             'RestaurantsLonList': RestaurantsLonList,
             'RestaurantsSize': RestaurantsSize,
             'activateRotate': activateRotate,
-            'rotaStateFlag': str(rotaStateFlag.value),
+            'rotaStateFlag': str(rotaStateEnum(rotaStateFlag).value),
+            'firstPageRefresh': firstPageRefresh,
         }
 
     except Sehir.DoesNotExist:
@@ -315,6 +325,7 @@ def findNearestPlaces(request,length):
         global rotaStateFlag
         global subHotelList
         global subRestaurantList
+        global firstPageRefresh
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
@@ -424,7 +435,8 @@ def findNearestPlaces(request,length):
             'RestaurantsLonList': RestaurantsLonList,
             'RestaurantsSize': RestaurantsSize,
             'activateRotate': activateRotate,
-            'rotaStateFlag': str(rotaStateFlag.value),
+            'rotaStateFlag': str(rotaStateEnum(rotaStateFlag).value),
+            'firstPageRefresh': firstPageRefresh,
         }
 
     except Sehir.DoesNotExist:
@@ -439,6 +451,7 @@ def findNearestPlacesMap(request):
         global rotaStateFlag
         global subHotelList
         global subRestaurantList
+        global firstPageRefresh
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
@@ -517,7 +530,8 @@ def findNearestPlacesMap(request):
             'RestaurantsLonList': RestaurantsLonList,
             'RestaurantsSize': RestaurantsSize,
             'activateRotate': activateRotate,
-            'rotaStateFlag': str(rotaStateFlag.value),
+            'rotaStateFlag': str(rotaStateEnum(rotaStateFlag).value),
+            'firstPageRefresh': firstPageRefresh,
         }
 
     except Sehir.DoesNotExist:
