@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b8eaabc-fc45-4134-8a8e-efbc67e2a739" name="Default Changelist" comment="" />
+    <list default="true" id="7b8eaabc-fc45-4134-8a8e-efbc67e2a739" name="Default Changelist" comment="opç|">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,21 +50,42 @@
       <option name="presentableId" value="Default" />
       <updated>1566812181254</updated>
     </task>
+    <task id="LOCAL-00001" summary="gitignore added">
+      <created>1585393854071</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585393854071</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
+    <MESSAGE value="gitignore added" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore added" />
   </component>
   <component name="WindowStateProjectService">
     <state x="693" y="359" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1582464380805">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="693" y="359" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582464380805" />
+    <state x="470" y="42" width="1075" height="983" key="CommitChangelistDialog2" timestamp="1585404869958">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="470" y="42" width="1075" height="983" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585404869958" />
+    <state x="368" y="91" key="DiffContextDialog" timestamp="1585393641194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="368" y="91" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585393641194" />
     <state x="740" y="262" key="FileChooserDialogImpl" timestamp="1582465256051">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="262" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582465256051" />
-    <state x="461" y="163" key="SettingsEditor" timestamp="1582465288131">
+    <state x="461" y="163" key="SettingsEditor" timestamp="1585393014615">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582465288131" />
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585393014615" />
     <state x="767" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582468007309">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
