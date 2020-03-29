@@ -29,8 +29,8 @@ def findRoute():
     cityS = cityAndRoute[1]
 
     #Sıralanmis City List'i
-    for a in range(len(cityS)):
-        print("CitiesAAA=", a, " ", cityS.iloc[a]['city'])
+    #for a in range(len(cityS)):
+    #    print("CitiesAAA=", a, " ", cityS.iloc[a]['city'])
 
     problem = problem.reindex(route)
 
@@ -47,7 +47,6 @@ def som(problem, iterations, locationFlag, learning_rate=0.8):
         # Obtain the normalized set of cities (w/ coord in [0,1])
         cities = problem.copy()
 
-        print(cities)
         shortestCityIndex = findShortestCity(cities)
 
         cities[['x', 'y']] = normalize(cities[['x', 'y']])
@@ -93,10 +92,8 @@ def som(problem, iterations, locationFlag, learning_rate=0.8):
 
         cities.sort_values(by=['winner'],inplace =True)
 
-        print("Shortest=", shortestCityIndex)
         ourLocationIndex = route.tolist()
 
-        print("Len = ", len(ourLocationIndex))
 
         if (ourLocationIndex[0] == 0 and ourLocationIndex[1] == shortestCityIndex):
             break
@@ -113,7 +110,6 @@ def findShortestCity(cities):
     for i in range(1,arraySize):
         temp = sqrt(abs(cities.iloc[0]['x'] - cities.iloc[i]['x'])**2 + (abs(cities.iloc[0]['y'] - cities.iloc[i]['y']))**2)
         if temp < length:
-            print("Temp=", temp, " ==== Length=", length, " City=", cities.iloc[i]['city'], "  İ=", i)
             length = temp
             index = i
 

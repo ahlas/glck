@@ -10,6 +10,7 @@ import geocoder
 from math import sqrt
 from itertools import chain
 
+choosenCitiesList = []
 subCitiesList = []
 subHotelList = []
 subRestaurantList = []
@@ -26,6 +27,7 @@ def homePageView(request):
     global activateHotel
     global activeRestaurant
     global firstPageRefresh
+    global choosenCitiesList
 
     activateRotate="No"
     activateHotel = "No"
@@ -45,7 +47,7 @@ def detail(request):
     global globalCheckList
     global globalQuery
     global firstPageRefresh
-
+    global choosenCitiesList
 
     if rotaStateFlag == rotaStateEnum.firstState: # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
             firstPageRefresh = "Yes"
@@ -88,7 +90,9 @@ def detail(request):
 
     else:
         firstPageRefresh = "No"
-        completed = request.GET.get('changeStatus1','')
+        completed = request.GET.get('changeStatus1', '')
+
+
         try:
            if completed == "actionState":
                rotaStateFlag = rotaStateEnum.thirdState
@@ -96,6 +100,8 @@ def detail(request):
                rotaStateFlag = rotaStateEnum.secondState
         except:
             print("ERRORR")
+
+        updateActiveCity(request)
 
         if rotaStateFlag == rotaStateEnum.secondState:
             activateRotate = "No"
@@ -161,6 +167,7 @@ def cityResult(request,sehirID):
         global subHotelList
         global subRestaurantList
         global firstPageRefresh
+        global choosenCitiesList
 
         # -------------------    Verileri çekme denemeleri ----------------------
         altSehirlerFrame = read_frame(altSehirler)
@@ -187,7 +194,6 @@ def cityResult(request,sehirID):
             hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
             hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
             hotelsSize.append(int(a))
-            print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
 
         #----- Restaurantlar Listesi
         RestaurantsNameList = []
@@ -200,7 +206,6 @@ def cityResult(request,sehirID):
             RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
             RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
             RestaurantsSize.append(int(a))
-            print("RESTAURANTLAR=", restaurantlarFrame.iloc[a]['restaurantAdi'])
 
 
         wayPointFlag = False
@@ -241,8 +246,9 @@ def cityResultMap(request):
         global subHotelList
         global subRestaurantList
         global firstPageRefresh
+        global choosenCitiesList
 
-        altSehirlerFrame = read_frame(subCitiesList)
+        altSehirlerFrame = read_frame(choosenCitiesList)
         otellerFrame = read_frame(subHotelList)
         restaurantlarFrame = read_frame(subRestaurantList)
         #-------------------- Database'deki verileri uygun formata çeviriyoruz ----------
@@ -261,8 +267,6 @@ def cityResultMap(request):
             sortedCitiesLatList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-2]['konumX'])
             sortedCitiesLonList.append(altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city']) - 2]['konumY'])
             sortedCitiesSize.append(int(a))
-            print("TEST=",altSehirlerFrame.iloc[int(sortedCities.iloc[a]['city'])-2]['yerAdi'])
-
 
         #----- Oteller Listesi
         hotelsNameList = []
@@ -275,7 +279,6 @@ def cityResultMap(request):
             hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
             hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
             hotelsSize.append(int(a))
-            print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
 
         #----- Restaurantlar Listesi
         RestaurantsNameList = []
@@ -288,7 +291,6 @@ def cityResultMap(request):
             RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
             RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
             RestaurantsSize.append(int(a))
-            print("RESTAURANTLAR=", restaurantlarFrame.iloc[a]['restaurantAdi'])
 
         wayPointFlag = True
         context = {
@@ -326,6 +328,7 @@ def findNearestPlaces(request,length):
         global subHotelList
         global subRestaurantList
         global firstPageRefresh
+        global choosenCitiesList
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
@@ -356,7 +359,6 @@ def findNearestPlaces(request,length):
         for a in range(len(oteller)):
             #temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
             temp = uzaklikHesaplama(mylocX,mylocY,oteller.iloc[a]['konumX'],oteller.iloc[a]['konumY'])
-            print("OooTEL=", oteller.iloc[a]['otelAdi'], " temp=", temp, "  length=",length)
             if temp <= length:
                 resultOtelList.append(oteller.iloc[a])
 
@@ -373,7 +375,6 @@ def findNearestPlaces(request,length):
             hotelsLatList.append(oteller.iloc[a]['konumX'])
             hotelsLonList.append(oteller.iloc[a]['konumY'])
             hotelsSize.append(int(a))
-            print("OTELLER=", oteller.iloc[a]['otelAdi'])
 
         #----------------------------------------------------------------------------------------------------------------------------
 
@@ -388,7 +389,6 @@ def findNearestPlaces(request,length):
         for a in range(len(restaurantlar)):
             #temp = sqrt(abs(mylocX - altSehirler.iloc[a]['konumX'])**2 + (abs(mylocY - altSehirler.iloc[a]['konumY']))**2)
             temp = uzaklikHesaplama(mylocX,mylocY,restaurantlar.iloc[a]['konumX'],restaurantlar.iloc[a]['konumY'])
-            print("RRRestr=", restaurantlar.iloc[a]['restaurantAdi'], " temp=", temp, "  length=", length)
             if temp <= length:
                 resultRestaurantList.append(restaurantlar.iloc[a])
         # ---- Sıralanmıs Sehirlerin İsimlerini çekiyoruz sıralı şekilde
@@ -404,7 +404,6 @@ def findNearestPlaces(request,length):
             RestaurantsLatList.append(restaurantlar.iloc[a]['konumX'])
             RestaurantsLonList.append(restaurantlar.iloc[a]['konumY'])
             RestaurantsSize.append(int(a))
-            print("RESTAURANTLAR=", restaurantlar.iloc[a]['restaurantAdi'])
 
         #----------------------------------------------------------------------------------------------------------------------------
 
@@ -452,13 +451,14 @@ def findNearestPlacesMap(request):
         global subHotelList
         global subRestaurantList
         global firstPageRefresh
+        global choosenCitiesList
 
         myloc = geocoder.ip('me')
         print("My Location =",myloc.latlng)
         mylocX = myloc.latlng[0]
         mylocY = myloc.latlng[1]
 
-        resultCities = pd.DataFrame(subCitiesList)
+        resultCities = pd.DataFrame(choosenCitiesList)
         writeTSPFile(resultCities)
 
         # -------------------------- Sıralanmıs Sehir Listesini alıyoruz----------------------------------------------
@@ -488,7 +488,7 @@ def findNearestPlacesMap(request):
                 hotelsLatList.append(otellerFrame.iloc[a]['konumX'])
                 hotelsLonList.append(otellerFrame.iloc[a]['konumY'])
                 hotelsSize.append(int(a))
-                print("OTELLER=", otellerFrame.iloc[a]['otelAdi'])
+
             # ----------------------------------------------------------------------------------------------------------------------------
 
             # --- --------------------------RESTAURANTLAR ---------------------------------------------------------
@@ -504,7 +504,6 @@ def findNearestPlacesMap(request):
                 RestaurantsLatList.append(restaurantlarFrame.iloc[a]['konumX'])
                 RestaurantsLonList.append(restaurantlarFrame.iloc[a]['konumY'])
                 RestaurantsSize.append(int(a))
-                print("RESTAURANTLAR=",restaurantlarFrame.iloc[a]['restaurantAdi'])
 
             # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -572,3 +571,18 @@ def updateRotateStateFlagFunction(value):
         rotaStateFlag = rotaStateEnum.thirdState
     return rotaStateFlag
 
+def updateActiveCity(request):
+    global subCitiesList
+    global choosenCitiesList
+    lastCities =[]
+    activecities = request.GET.getlist('cityChecks[]')
+    print("Tip = ",subCitiesList[0]['yerAdi'])
+    print("CitieA =",subCitiesList)
+
+    for i in range(len(activecities)):
+        for j in range(len(subCitiesList)):
+            if activecities[i] == subCitiesList[j]['yerAdi']:
+                lastCities.append(subCitiesList[j])
+
+    if len(lastCities) != 0:
+        choosenCitiesList = lastCities
