@@ -1,6 +1,384 @@
-div	{
-	height:1700px;
-	width:100%;
-	background-image:url(background.jpg)
-	background-repeat:no-repeat;
+body {
+    background:url("../images/test1.jpg") no-repeat center center fixed;
+	color:#000;
+	background-size: cover;
+	 -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-color:transparent;
+        font-family: 'arial', sans-serif;
+    margin:0px;
+
+    }
+
+    .main2 {
+        background-color: transparent;
+        padding-top: 5%;
+        width: 100%;
+        height:auto;
+        border-radius: 1.5em;
+    }
+
+input {
+  background-image: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  transition: background-color 0.3s;
+  border-radius:5px;
+  color:#797777;
 }
+
+input[type='submit'] {
+  cursor: pointer;
+}
+
+    .searchinput {
+    width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 12px 20px;
+    border: none;
+  border-radius:20px 0px 0px 20px;
+    outline: none;
+	border:1px solid #cccccc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-bottom: 27px;
+float:left;
+ box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    }
+
+    form. form2 {
+        /*padding-top: 40px;*/
+    }
+
+
+
+    .search {
+      cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+
+        border: 0;
+        padding-left: 40px;
+        font-family: 'Ubuntu', sans-serif;
+        margin-left: 35%;
+        font-size: 13px;
+ box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    }
+
+form. form2 button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+       background: linear-gradient(to right, #9C27B0, #E040FB);
+/*  background: #2196F3;*/
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+  border-radius:0px 20px 20px 0px;
+}
+
+	form. form2 button:hover {
+  background: #E040FB;
+}
+
+form. form2::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+    a {
+        text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+        color: #E1BEE7;
+        text-decoration: none
+    }
+
+.button2{
+  width: 150px !important;
+  padding: 10px;
+       background: linear-gradient(to right, #9C27B0, #E040FB);
+/*  background: #2196F3;*/
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+  border-radius:20px !important;
+}
+
+    @media only screen and (max-width: 600px) {
+        .main {
+            border-radius: 0px;
+        }
+		.checkboxDiv{
+	/*display: grid;
+	grid-template-columns: auto;
+	grid-column-gap: 2%;
+	grid-row-gap: 2%;
+	width: 30% !important;*/
+	min-height: 50px;
+	background: transparent;
+	z-index: 2;
+	padding: 20px 35px 10px 10px;
+/*	grid-template-columns: repeat(2, auto) !important;
+	grid-template-rows: repeat(6, 35px) !important;*/
+	}
+
+	.buttonHiza{
+					margin-top:2% !important;
+		}
+
+	}
+
+.logo{
+	text-align:center;
+	margin-bottom:20px;
+	}
+
+ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	background-color:#000;
+	position:fixed;
+	bottom:0;
+	width:100%;
+}
+li:not(.maps_div .li){
+	float:left;
+}
+li a{
+	display:block;
+	color:white;
+	text-align:center;
+	padding:14px 16px;
+	text-decoration:none;
+}
+li a:hover{
+	background-color:#111;
+}
+
+.checkboxContainer{
+padding: 20px 20px;
+    clear: both;
+    width: 355px;
+    height: 50px;
+    margin: 0px auto;
+    display: flex;
+    align-content: center;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight:700;
+  color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  float:left;
+   margin:0px 0px 0px 15px;
+}
+label.container {
+    flex: auto;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+
+
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+    border-radius:5px;
+ box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+ 	border:1px solid #cccccc;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+
+.container input:checked ~ .checkmark {
+background: linear-gradient(to right, #9C27B0, #E040FB);
+}
+
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container .checkmark:after {
+left: 7px;
+    top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.radio{
+	border-radius:50%;
+	}
+
+
+
+h1{
+  font-size: 45px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  color:black;
+  margin-bottom: 40px;
+  color: #000;
+  text-shadow: 0 2px 3px #555555;
+  font-family: Tahoma;
+}
+
+
+.maps_container{
+  padding-top: 3%;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#map_container{
+  position: relative;
+}
+
+.maps_div {
+    display: grid;
+    grid-template-columns: auto;
+    grid-column-gap: 2%;
+    grid-row-gap: 2%;
+    width: auto;
+	min-width:150px;
+    min-height: 250px;
+    position: absolute;
+    background: #ffffff;
+    z-index: 2;
+    padding:10px;
+    margin: 5px auto;
+    grid-template-columns: repeat(1, auto);
+
+}
+.checkboxDiv{
+	/*display: grid;
+	grid-template-columns: auto;
+	grid-column-gap: 2%;
+	grid-row-gap: 2%;*/
+	width: 75%;
+	min-width:30%;
+	min-height: 50px;
+	background: transparent;
+	z-index: 2;
+	padding: 20px 35px 10px 10px;
+/*	grid-template-columns: repeat(4, auto);*/
+/*	   grid-template-rows: repeat(3, 35px);*/
+/*	   	float:left;*/
+	}
+	.buttonHiza{
+		/*padding-top:50px;
+			float:left;*/
+			margin-top:5%;
+		}
+	 #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+	   /* For mobile phones: */
+[class*="col-"] {
+  width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .col-1 {width: 8.33%;}
+  .col-2 {width: 16.66%;}
+  .col-3 {width: 25%;}
+  .col-4 {width: 33.33%;}
+  .col-5 {width: 41.66%;}
+  .col-6 {width: 50%;}
+  .col-7 {width: 58.33%;}
+  .col-8 {width: 66.66%;}
+  .col-9 {width: 75%;}
+  .col-10 {width: 83.33%;}
+  .col-11 {width: 91.66%;}
+  .col-12 {width: 100%;}
+}
+
+.hidden{
+  opacity:0;
+  /*  OR   */
+  position:absolute;
+  left:-999px;
+}
+
+
+
+
+
+

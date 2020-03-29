@@ -33,6 +33,7 @@ def homePageView(request):
     activateHotel = "No"
     activeRestaurant = "No"
     firstPageRefresh = "Yes" #Ana ekrandan diğer ekrana geçerken otel ve restaurantların temizlenip temizlenmemesi olayı için
+    choosenCitiesList = []
 
     rotaStateFlag = rotaStateEnum.firstState
     return render(request, 'firstPage.html')
@@ -117,6 +118,7 @@ def detail(request):
                     value = int(globalQuery)
                     # Buraya mesafe arasinda şehirler listelenip eklenicek
                     context = findNearestPlaces(request, value)
+                    choosenCitiesList = []
                     return render(request, 'resultPage.html', context)
                 else:
                     return render(request, "wrongValue.html")
@@ -128,6 +130,7 @@ def detail(request):
                     # Secili sehir id sini gönderiyoruz
                     sehirID = Sehir.objects.filter(il=globalQuery).values('id')[0]['id']
                     context = cityResult(request, sehirID)
+                    choosenCitiesList = []
                     return render(request, 'resultPage.html', context)
 
                 else:
@@ -142,10 +145,12 @@ def detail(request):
             if globalModState == MODState.yakinCevre:
                 # Buraya mesafe arasinda şehirler listelenip eklenicek
                 context = findNearestPlacesMap(request)
+                choosenCitiesList = []
                 return render(request, 'resultPage.html', context)
 
             elif globalModState == MODState.ilSecimi:
                 context = cityResultMap(request)
+                choosenCitiesList = []
                 return render(request, 'resultPage.html', context)
 
             else:
