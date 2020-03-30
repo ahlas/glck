@@ -89,6 +89,7 @@
     <script src="{% static 'script/allScript.js' %}"></script>
     <script>
         var Alert = new CustomAlert();
+
         function initMap() {
               // The location of Uluru
               var x1 = {lat: 40.323464, lng: 36.552193};
@@ -107,14 +108,20 @@
               var pageRefresh = "{{firstPageRefresh}}";
 
               if(pageRefresh == "Yes"){
+                localStorage.setItem("size","-1");
                 localStorage.setItem("activeHotel", "No");
                 localStorage.setItem("activeRestaurant", "No");
               }
 
+              var pageRefreshCheck = localStorage.getItem("size");
+              if(parseInt(pageRefreshCheck) != -1){
+                for(var i=0;i<parseInt(pageRefreshCheck);i++){
+                    var val = localStorage.getItem(i.toString());
+                    document.getElementById(val).checked =true;
+                }
+              }
 
               document.getElementById('routeButton').addEventListener('click', function() {
-                            var Alert = new CustomAlert();
-                            Alert.render('Rota için lütfen bir yer seçiniz...')
                         var rslt = dynamicButton({% url 'detail' %});
                         if(rslt == 5){
                             Alert.render('Rota için lütfen bir yer seçiniz...')
