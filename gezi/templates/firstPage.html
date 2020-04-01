@@ -10,38 +10,60 @@
 <link rel="stylesheet" href="{% static 'css/firstPageCSS.css' %}">
 
 <body>
-
  <div class="main">
     <form class="form1" id="form1ID" method="GET">
-     <div class="logo"><img src="static/images/gff.gif" width="620" height="100" alt="logo" /></div>
+        <div class="set">
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves2.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves4.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves2.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves4.png"></div>
+        </div>
+        <div class="set set2">
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves2.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves4.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves2.png"></div>
+            <div><img src="static/images/leaves1.png"></div>
+            <div><img src="static/images/leaves4.png"></div>
+        </div>
 
-     <div class="onoffswitch">
-        <input type="checkbox" name="checks[]" value="mod" onclick="handleClick(this);" class="onoffswitch-checkbox" id="myonoffswitch" checked>
-        <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
+         <div class="logo"><img src="static/images/gff.gif" width="620" height="100" alt="logo" /></div>
+
+         <div class="onoffswitch">
+            <input type="checkbox" name="checks[]" value="mod" onclick="handleClick(this);" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+            <label class="onoffswitch-label" for="myonoffswitch">
+                <span class="onoffswitch-inner"></span>
+                <span class="onoffswitch-switch"></span>
+            </label>
+        </div>
+
+          <input style="background-color: #FFFFFF" class="searchinput" id="searchArea" name="lastname" type="text" align="center" placeholder="Km Giriniz...">
+          <button type="submit" formaction="{% url 'detail' %}"  id="searchButton">Search</button>
+
+          <script src="{% static 'script/allScript.js' %}"></script>
+
+         <div class="checkboxContainer">
+         <label class="container" value="doga">Doğa/Kamp
+              <input type="checkbox" checked="checked"  name="checks[]" value="doga">
+              <span class="checkmark"></span>
+         </label>
+         <label class="container" value ="turizm"> Tarihi/Turistik
+              <input type="checkbox" name="checks[]" value="turizm">
+              <span class="checkmark"></span>
         </label>
-    </div>
+        </div>
 
-      <input style="background-color: #FFFFFF" class="searchinput" id="searchArea" name="lastname" type="text" align="center" placeholder="Km Giriniz...">
-      <button type="submit" formaction="{% url 'detail' %}"  id="searchButton">Search</button>
+    </form>
 
-      <script src="{% static 'script/allScript.js' %}"></script>
+ </div>
 
-     <div class="checkboxContainer">
-     <label class="container" value="doga">Doğa/Kamp
-          <input type="checkbox" checked="checked"  name="checks[]" value="doga">
-          <span class="checkmark"></span>
-     </label>
-     <label class="container" value ="turizm"> Tarihi/Turistik
-          <input type="checkbox" name="checks[]" value="turizm">
-          <span class="checkmark"></span>
-    </label>
-    </div>
 
-       </form>
-
-    </div>
 <ul>
       <li><a class="activate"href="#">About Us</a></li>
       <li><a href="#">Services</a></li>

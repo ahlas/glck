@@ -294,34 +294,34 @@ h1{
         position: relative; width: 180px;
         -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
     }
-    .onoffswitch-checkbox {
+.onoffswitch-checkbox {
         display: none;
     }
-    .onoffswitch-label {
+.onoffswitch-label {
         display: block; overflow: hidden; cursor: pointer;
         border: 2px solid #999999; border-radius: 20px;
     }
-    .onoffswitch-inner {
+.onoffswitch-inner {
         display: block; width: 200%; margin-left: -100%;
         transition: margin 0.3s ease-in 0s;
     }
-    .onoffswitch-inner:before, .onoffswitch-inner:after {
+.onoffswitch-inner:before, .onoffswitch-inner:after {
         display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
         font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
         box-sizing: border-box;
     }
-    .onoffswitch-inner:before {
+.onoffswitch-inner:before {
         content: "Yakınımda Bul";
         padding-left: 40px;
         background-color: #34A7C1; color: #FFFFFF;
     }
-    .onoffswitch-inner:after {
+.onoffswitch-inner:after {
         content: "İl Secerek Bul";
         padding-right: 40px;
         background-color: #cca806; color: #FFFFFF;
         text-align: right;
     }
-    .onoffswitch-switch {
+.onoffswitch-switch {
         display: block; width: 18px; margin: 6px;
         background: #FFFFFF;
         position: absolute; top: 0; bottom: 0;
@@ -329,9 +329,125 @@ h1{
         border: 2px solid #999999; border-radius: 20px;
         transition: all 0.3s ease-in 0s;
     }
-    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
         margin-left: 0;
     }
-    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
         right: 0px;
     }
+
+
+.set{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.set div{
+    position: absolute;
+    display: block;
+}
+
+.set div:nth-child(1)
+{
+    left:20%;
+    animation: animate 22s linear infinite;
+    animation-delay: -15s;
+}
+.set div:nth-child(2)
+{
+    left:10%;
+    animation: animate 27s linear infinite;
+    animation-delay: -15s;
+}
+.set div:nth-child(3)
+{
+    left:90%;
+    animation: animate 32s linear infinite;
+}
+.set div:nth-child(4)
+{
+    left:0%;
+    animation: animate 22s linear infinite;
+    animation-delay: -15s;
+}
+.set div:nth-child(5)
+{
+    left:85%;
+    animation: animate 25s linear infinite;
+    animation-delay: -30s;
+}
+.set div:nth-child(6)
+{
+    left:0%;
+    animation: animate 19s linear infinite;
+}
+.set div:nth-child(7)
+{
+    left:15%;
+    animation: animate 21s linear infinite;
+}
+.set div:nth-child(8)
+{
+    left:95%;
+    animation: animate 22s linear infinite;
+}
+@keyframes animate
+{
+    0%
+    {
+        opacity: 0;
+        top:-10%;
+        transform: translateX(20px) rotate(0deg);
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    20%
+    {
+        transform: translateX(-20px) rotate(45deg);
+    }
+    40%
+    {
+        transform: translateX(-20px) rotate(90deg);
+    }
+    60%
+    {
+        transform: translateX(20px) rotate(135deg);
+    }
+    80%
+    {
+        transform: translateX(-20px) rotate(180deg);
+    }
+    100%
+    {
+        top:110%;
+        transform: translateX(-20px) rotate(225deg);
+    }
+}
+
+
+
+.set2
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: scale(0.8) rotateY(180deg);
+    filter: blur(2px);
+}
+
+.set3
+{
+    width: 100%;
+    height: 100%;
+    transform: scale(0.8) rotateX(180deg);
+    filter: blur(4px);
+    overflow: hidden;
+}
+
+
