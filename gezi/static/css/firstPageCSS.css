@@ -1,5 +1,5 @@
 body {
-      background:url(../images/a.png) no-repeat center center fixed;
+      background:url(../images/y1.jpg) no-repeat center center fixed;
 	  color:#04050a;
 	  background-size: cover;
 	 -webkit-background-size: cover;
@@ -35,8 +35,8 @@ input {
 input[type='submit'] {
   cursor: pointer;
 }
-
     .searchinput {
+    position:relative;
     width: 76%;
     color: rgb(38, 50, 56);
     font-weight: 700;
@@ -79,7 +79,7 @@ form.form1 button {
   float: left;
   width: 20%;
   padding: 10px;
-       background: linear-gradient(to right, #2c3821, #a0d102);
+       background: linear-gradient(to right, #2c3821, #92bf02);
 /*  background: #2196F3;*/
   color: white;
   font-size: 17px;
@@ -90,7 +90,7 @@ form.form1 button {
 }
 
 	form.form1 button:hover {
-  background: #E040FB;
+  background: #779c02;
 }
 
 form.form1::after {
@@ -138,7 +138,7 @@ ul{
 	margin:0;
 	padding:0;
 	overflow:hidden;
-	background-color:#000;
+	background-color:#0f0f0f;
 	position:fixed;
 	bottom:0;
 	width:100%;
@@ -368,7 +368,7 @@ h1{
 }
 .set div:nth-child(3)
 {
-    left:90%;
+    left:18%;
     animation: animate 32s linear infinite;
 }
 .set div:nth-child(4)
@@ -379,7 +379,7 @@ h1{
 }
 .set div:nth-child(5)
 {
-    left:85%;
+    left:16%;
     animation: animate 25s linear infinite;
     animation-delay: -30s;
 }
@@ -395,7 +395,7 @@ h1{
 }
 .set div:nth-child(8)
 {
-    left:95%;
+    left:5%;
     animation: animate 22s linear infinite;
 }
 @keyframes animate
