@@ -52,7 +52,7 @@ def detail(request):
 
     if rotaStateFlag == rotaStateEnum.firstState: # Bu rota belirlemede tekrar sayfanın yüklenmesi için gerekli State
             firstPageRefresh = "Yes"
-            modState = MODState.ilSecimi
+            modState = MODState.yakinCevre
             checkList = request.GET.getlist('checks[]')
             globalCheckList = checkList
             query = request.GET['lastname']
@@ -61,7 +61,7 @@ def detail(request):
             if len(checkList) != 0:
                 for j in range(len(checkList)):
                     if checkList[j]=="mod":
-                        modState = MODState.yakinCevre
+                        modState = MODState.ilSecimi
 
 
             if modState == MODState.yakinCevre:

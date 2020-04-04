@@ -313,12 +313,12 @@ h1{
         box-sizing: border-box;
     }
 .onoffswitch-inner:before {
-        content: "Yakınımda Bul";
+        content: "İl Secerek Bul";
         padding-left: 40px;
         background-color: #991d1f; color: #FFFFFF;
     }
 .onoffswitch-inner:after {
-        content: "İl Secerek Bul";
+        content: "Yakınımda Bul";
         padding-right: 40px;
         background-color: #212238; color: #FFFFFF;
         text-align: right;
