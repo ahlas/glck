@@ -1,12 +1,13 @@
 body {
-      background:url(../images/background.jpg) no-repeat center center fixed;
-	  color:#000;
+      background:url(../images/a.png) no-repeat center center fixed;
+	  color:#04050a;
 	  background-size: cover;
 	 -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;*/
        background-color:transparent;
        font-family: 'arial', sans-serif;
+       font-weight: 550;
        margin:0px;
 }
 
@@ -78,7 +79,7 @@ form.form1 button {
   float: left;
   width: 20%;
   padding: 10px;
-       background: linear-gradient(to right, #9C27B0, #E040FB);
+       background: linear-gradient(to right, #2c3821, #a0d102);
 /*  background: #2196F3;*/
   color: white;
   font-size: 17px;
@@ -171,8 +172,9 @@ padding: 20px 20px;
   position: relative;
   padding-left: 35px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight:700;
+  font-size: 16px;
+  font-weight:800;
+  font-family: 'Ubuntu', sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -203,7 +205,7 @@ label.container {
   background-color: #eee;
     border-radius:5px;
  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
- 	border:1px solid #cccccc;
+ 	border:1px solid #000000;
 }
 
 
@@ -213,7 +215,7 @@ label.container {
 
 
 .container input:checked ~ .checkmark {
-background: linear-gradient(to right, #9C27B0, #E040FB);
+background: linear-gradient(to right, #2c3821, #6d8c06);
 }
 
 
@@ -313,12 +315,12 @@ h1{
 .onoffswitch-inner:before {
         content: "Yakınımda Bul";
         padding-left: 40px;
-        background-color: #34A7C1; color: #FFFFFF;
+        background-color: #991d1f; color: #FFFFFF;
     }
 .onoffswitch-inner:after {
         content: "İl Secerek Bul";
         padding-right: 40px;
-        background-color: #cca806; color: #FFFFFF;
+        background-color: #212238; color: #FFFFFF;
         text-align: right;
     }
 .onoffswitch-switch {
@@ -349,6 +351,7 @@ h1{
 .set div{
     position: absolute;
     display: block;
+    filter: blur(1px);
 }
 
 .set div:nth-child(1)
@@ -450,4 +453,41 @@ h1{
     overflow: hidden;
 }
 
+.wavy span
+{
+	text-align:center;
+	margin-bottom:20px;
+	max-width: 620px;
+    overflow: hidden;
+    max-height: 200px;
+    border-radius: 20px;
 
+    margin-left:3px;
+    font-family: consolas;
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 2.2em;
+    animation: animateWord 2.5s ease-in-out infinite;
+    animation-delay: calc(0.1s * var(--i));
+}
+
+
+
+
+@keyframes animateWord
+{
+    0%
+    {
+        transform: translateY(0px);
+    }
+    20%
+    {
+        transform: translateY(-20px);
+    }
+    40%,100%
+    {
+        transform: translateY(0px);
+    }
+}
