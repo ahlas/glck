@@ -1,6 +1,6 @@
 body {
       background:url(../images/y1.jpg) no-repeat center center fixed;
-	  color:#04050a;
+	  color:#991d1f;
 	  background-size: cover;
 	 -webkit-background-size: cover;
       -moz-background-size: cover;
@@ -158,12 +158,12 @@ li a:hover{
 }
 
 .checkboxContainer{
-padding: 20px 20px;
+padding: 1px 1px;
     clear: both;
     width: 355px;
     height: 50px;
     margin: 0px auto;
-    display: flex;
+    display: block;
     align-content: center;
 }
 
@@ -467,7 +467,7 @@ h1{
     position: relative;
     display: inline-block;
     color: #fff;
-    text-transform: uppercase;
+
     font-size: 2.2em;
     animation: animateWord 2.5s ease-in-out infinite;
     animation-delay: calc(0.1s * var(--i));
