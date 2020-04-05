@@ -43,21 +43,23 @@
      <div class="main2">
            <div class="row">
                 <form id="formX" action="{% url 'detail' %}" method="GET">
-                    <div class="col-9 col-s-12">
-                      {% if altSehirler %}
-                            {% for altSehir in altSehirler %}
-                                    <div class="col-s-12 col-2" >
-                                        <label class="container">{{altSehir.yerAdi}}
-                                            <input type="checkbox" id="{{altSehir.yerAdi}}" name="cityChecks[]"  value="{{altSehir.yerAdi}}">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
-                            {% endfor %}
-                     {% else %}
-                        <h3>You dont have any permission</h3>
-                    {% endif %}
-                        <input type="text"  style="visibility: hidden;" id="xdemR" name="changeStatus1" value="tpmksRxikseel">
-                    </div>
+                        <div class="col-9 col-s-12">
+                                  {% if altSehirler %}
+                                        {% for altSehir in altSehirler %}
+                                                <div class="col-s-12 col-2" >
+                                                    <div class="shadow">
+                                                    <label class="container">{{altSehir.yerAdi}}
+                                                        <input type="checkbox" id="{{altSehir.yerAdi}}" name="cityChecks[]"  value="{{altSehir.yerAdi}}">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                    </div>
+                                                </div>
+                                        {% endfor %}
+                                 {% else %}
+                                    <h3>You dont have any permission</h3>
+                                {% endif %}
+                                    <input type="text"  style="visibility: hidden;" id="xdemR" name="changeStatus1" value="tpmksRxikseel">
+                            </div>
                 </form>
                     <div class="col-2 col-s-12 buttonHiza">
                                  <button type="submit" id="routeButton" class="button2" >Rota Belirle</button>

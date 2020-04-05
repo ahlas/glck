@@ -1,5 +1,5 @@
 body {
-    background:url("../images/test1.jpg") no-repeat center center fixed;
+    background:url("../images/y.jpg") no-repeat center center fixed;
 	color:#000;
 	background-size: cover;
 	 -webkit-background-size: cover;
@@ -107,7 +107,7 @@ form. form2::after {
 .button2{
   width: 150px !important;
   padding: 10px;
-       background: linear-gradient(to right, #9C27B0, #E040FB);
+       background: linear-gradient(to right, #2c3821, #92bf02);
 /*  background: #2196F3;*/
   color: white;
   font-size: 17px;
@@ -115,6 +115,9 @@ form. form2::after {
   border-left: none;
   cursor: pointer;
   border-radius:20px !important;
+}
+.button2:hover {
+  background: #779c02;
 }
 
     @media only screen and (max-width: 600px) {
@@ -185,9 +188,9 @@ padding: 20px 20px;
   position: relative;
   padding-left: 35px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 17px;
   font-weight:700;
-  color: white;
+  color: #000;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -377,7 +380,42 @@ h1{
   left:-999px;
 }
 
+.container before,
+.container::after
+{
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background: linear-gradient(45deg,#000000,#ffff0096,#ff7300ce,
+    #4ffb0054,#ffff0096,#ff7300ce);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: animateBox 20s linear infinite;
+}
 
+.container::after
+{
+    filter:blur(10px);
+}
+
+@keyframes animateBox
+{
+    0%
+    {
+        background-position: 0 0;
+    }
+    50%
+    {
+        background-position: 300% 0;
+    }
+    100%
+    {
+        background-position: 0 0;
+    }
+}
 
 
 
